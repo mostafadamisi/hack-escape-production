@@ -7,8 +7,8 @@ export default async function MediaPage({ params }) {
   const articles = await fetchData('media', locale);
 
   const t = {
-    en: { title: "Media Coverage", subtitle: "Hack & Escape in the News" },
-    ar: { title: "التغطية الإعلامية", subtitle: "هاك أند إسكيب في الأخبار" }
+    en: { title: "Media Artifacts", subtitle: "Official reports and intelligence mentions.", noData: "No recent signal detected." },
+    ar: { title: "الأرشيف الإعلامي", subtitle: "التقارير الرسمية والإشارات الإعلامية.", noData: "لم يتم اكتشاف إشارات حديثة." }
   }[locale];
 
   return (
@@ -18,23 +18,37 @@ export default async function MediaPage({ params }) {
         <p className={styles.subtitle}>{t.subtitle}</p>
       </header>
 
-      <div className={styles.list}>
+      <div className={styles.grid}>
         {articles && articles.length > 0 ? (
-          articles.map((article) => (
-            <a key={article._id} href={article.link} target="_blank" rel="noopener noreferrer" className={styles.link}>
-              <CyberCard title={article.sourceName} variant="secondary">
+          articles.map((article, index) => (
+            <a 
+              key={article._id} 
+              href={article.link} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={styles.cardWrapper}
+              style={{ '--index': index }}
+            >
+              <CyberCard variant="secondary">
                 <div className={styles.articleBody}>
-                  <h3 className={styles.articleTitle}>{article.title}</h3>
+                  <div className={styles.sourceTag}>{article.sourceName}</div>
+                  <h3 className={styles.articleTitle}>
+                    {article.title?.[locale] || article.title?.en || (typeof article.title === 'string' ? article.title : '')}
+                  </h3>
                   <div className={styles.footer}>
-                    <span>{new Date(article.date).toLocaleDateString(locale)}</span>
-                    <span className={styles.readMore}>{locale === 'en' ? 'Read Article →' : 'اقرأ المقال ←'}</span>
+                    <span className={styles.date}>
+                      {article.date ? new Date(article.date).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' }) : ''}
+                    </span>
+                    <span className={styles.readMore}>
+                      {locale === 'en' ? 'Decrypt Full Report →' : 'فك كود التقرير ←'}
+                    </span>
                   </div>
                 </div>
               </CyberCard>
             </a>
           ))
         ) : (
-          <p className={styles.noData}>{locale === 'en' ? 'No recent coverage.' : 'لا توجد تغطية حديثة.'}</p>
+          <p className={styles.noData}>{t.noData}</p>
         )}
       </div>
     </div>

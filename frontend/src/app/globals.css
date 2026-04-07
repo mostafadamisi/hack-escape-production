@@ -66,6 +66,9 @@ body {
 
 .mono {
   font-family: var(--font-mono), monospace;
+  direction: ltr;
+  display: inline-block;
+  unicode-bidi: isolate;
 }
 
 a {

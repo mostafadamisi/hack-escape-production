@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+.git
+.vscode
+*.log
+.env
+backend/data/*
+backend/public/uploads/*
+!backend/data/.gitkeep
+!backend/public/uploads/.gitkeep

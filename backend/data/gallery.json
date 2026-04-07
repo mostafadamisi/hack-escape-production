@@ -1,16 +1,16 @@
 [
   {
     "title": {
-      "en": "H&E 2025 Highlights",
-      "ar": "لقطات من هاك أند إسكيب ٢٠٢٥"
+      "en": "hacker",
+      "ar": "هكر"
     },
-    "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
-    "type": "photo",
     "category": {
-      "en": "Competition",
-      "ar": "المنافسة"
+      "en": "hackerr",
+      "ar": "هكرر2"
     },
-    "_id": "1",
-    "createdAt": "2026-03-27T00:03:36.176Z"
+    "image": "/uploads/1775553714905-563481835.jpg",
+    "_id": "1775553714906",
+    "createdAt": "2026-04-07T09:21:54.907Z",
+    "updatedAt": "2026-04-07T09:26:42.948Z"
   }
 ]

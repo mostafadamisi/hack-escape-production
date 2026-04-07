@@ -1,12 +1,68 @@
 [
   {
     "title": {
-      "en": "Next-Gen Cyber Talent in Jordan",
-      "ar": "جيل جديد من المواهب السيبرانية في الأردن"
+      "en": "Jordan Cyber Club Launches 'Hack & Escape' Competition",
+      "ar": "نادي الأردن للسايبر يطلق مسابقة 'Hack & Escape'"
     },
-    "source": "Jordan Tech News",
-    "url": "#",
+    "sourceName": "Jordan Times",
+    "link": "https://www.jordantimes.com/news/local/cyber-club-launches-national-competition",
+    "date": "2025-05-12T10:00:00Z",
     "_id": "1",
-    "createdAt": "2026-03-27T00:03:36.186Z"
+    "createdAt": "2026-04-02T18:42:56.077Z"
+  },
+  {
+    "title": {
+      "en": "Future Cybersecurity Leaders Shine in Amman",
+      "ar": "قادة الأمن السيبراني في المستقبل يتألقون في عمان"
+    },
+    "sourceName": "Al-Ghad News",
+    "link": "https://alghad.com/cyber-security-leaders-amman/",
+    "date": "2025-06-25T09:30:00Z",
+    "_id": "2",
+    "createdAt": "2026-04-02T18:42:56.077Z"
+  },
+  {
+    "title": {
+      "en": "The Innovation Behind the Jordanian Escape Room CTF",
+      "ar": "الابتكار وراء مسابقة غرف الهروب الأردنية"
+    },
+    "sourceName": "Tech Trends MEA",
+    "link": "https://techtrends.io/jordanian-ctf-innovation",
+    "date": "2025-07-05T14:00:00Z",
+    "_id": "3",
+    "createdAt": "2026-04-02T18:42:56.077Z"
+  },
+  {
+    "title": {
+      "en": "National Cybersecurity Strategy: Empowering Youth",
+      "ar": "الاستراتيجية الوطنية للأمن السيبراني: تمكين الشباب"
+    },
+    "sourceName": "Ammon News",
+    "link": "https://ammonnews.net/article/123456",
+    "date": "2025-08-15T11:00:00Z",
+    "_id": "4",
+    "createdAt": "2026-04-02T18:42:56.077Z"
+  },
+  {
+    "title": {
+      "en": "Cybersecurity Training: Building a Resilient Digital Future",
+      "ar": "التدريب على الأمن السيبراني: بناء مستقبل رقمي مرن"
+    },
+    "sourceName": "Roya News",
+    "link": "https://royanews.tv/cyber-training-jordan",
+    "date": "2025-09-02T16:45:00Z",
+    "_id": "5",
+    "createdAt": "2026-04-02T18:42:56.077Z"
+  },
+  {
+    "title": {
+      "en": "i dont knowwwww",
+      "ar": "مش عاررففف"
+    },
+    "sourceName": "الاخباررر",
+    "link": "http://localhost:3000/en/admin/media",
+    "date": "2026-04-07T00:00:00.000Z",
+    "_id": "1775555039655",
+    "createdAt": "2026-04-07T09:43:59.655Z"
   }
 ]

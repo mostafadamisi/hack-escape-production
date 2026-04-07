@@ -1,16 +1,25 @@
 [
   {
-    "name": "Jordan Cyber Club Core Team",
+    "name": {
+      "en": "asdgsd",
+      "ar": "asdgsdga"
+    },
     "role": {
-      "en": "Main Organizers",
-      "ar": "المنظمون الرئيسيون"
+      "en": "asdgsdga",
+      "ar": "asdgsadg"
     },
     "bio": {
-      "en": "A passionate group of Jordanian innovators in cyber education.",
-      "ar": "مجموعة شغوفة من المبتكرين الأردنيين في مجال التعليم السيبراني."
+      "en": "sadgsdag",
+      "ar": "asdgdsag"
     },
-    "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=400",
-    "_id": "1",
-    "createdAt": "2026-03-27T00:03:36.168Z"
+    "position": {
+      "en": "asdasd",
+      "ar": "sdgdsag"
+    },
+    "linkedin": "https://github.com/github/spec-kit?tab=readme-ov-file",
+    "image": "/uploads/1775552209655-149996515.jpg",
+    "_id": "1775552130502",
+    "createdAt": "2026-04-07T08:55:30.502Z",
+    "updatedAt": "2026-04-07T08:56:49.656Z"
   }
 ]

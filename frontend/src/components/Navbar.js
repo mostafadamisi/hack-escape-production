@@ -16,6 +16,7 @@ export default function Navbar() {
   };
 
   const navLinks = [
+    { href: '', label: locale === 'en' ? 'Home' : 'الرئيسية' },
     { href: '/about', label: locale === 'en' ? 'About' : 'حول' },
     { href: '/concept', label: locale === 'en' ? 'Concept' : 'المفهوم' },
     { href: '/timeline', label: locale === 'en' ? 'Journey' : 'الرحلة' },
@@ -23,6 +24,7 @@ export default function Navbar() {
     { href: '/gallery', label: locale === 'en' ? 'Gallery' : 'المعرض' },
     { href: '/media', label: locale === 'en' ? 'Media' : 'الإعلام' },
     { href: '/sponsors', label: locale === 'en' ? 'Sponsors' : 'الرعاة' },
+    { href: '/contact', label: locale === 'en' ? 'Contact' : 'تواصل معنا' },
   ];
 
   return (

@@ -1,63 +1,85 @@
 'use client';
-import { useState } from 'react';
+import { use } from 'react';
 import styles from './contact.module.css';
+import Link from 'next/link';
+import { 
+  FaInstagram, 
+  FaLinkedin, 
+  FaEnvelope, 
+  FaPhoneAlt,
+  FaUserTie
+} from 'react-icons/fa';
 
 export default function ContactPage({ params }) {
-  const { locale } = params;
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-  const [status, setStatus] = useState(null);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('loading');
-    
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/inquiries`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, type: 'contact' })
-      });
-      
-      if (res.ok) {
-        setStatus('success');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      } else {
-        setStatus('error');
-      }
-    } catch (err) {
-      setStatus('error');
-    }
-  };
+  const { locale } = use(params);
 
   const t = {
     en: {
-      title: "Get In Touch",
-      subtitle: "Questions? Logic errors? Contact the team.",
-      name: "Your Name",
+      title: "Contact Jordan Cyber Club",
+      subtitle: "Reach out to collaborate, sponsor, or learn more.",
+      instagram: "Instagram",
+      linkedin: "LinkedIn",
       email: "Email Address",
-      subject: "Subject",
-      message: "Message",
-      send: "Transmit Signal",
-      success: "Message Received. Agent will respond shortly.",
-      error: "Transmission Failed. Try again or check your uplink."
+      pr: "Public Relations – Rahma Al-Dous",
+      ceo: "CEO – Ayham Khamees",
+      footerTitle: "We’d love to hear from you",
+      sponsorBtn: "Become a Sponsor"
     },
     ar: {
-      title: "تواصل معنا",
-      subtitle: "أسئلة؟ أخطاء منطقية؟ تواصل مع الفريق.",
-      name: "اسمك",
+      title: "تواصل مع نادي الأردن للسايبر",
+      subtitle: "تواصل معنا للتعاون، الرعاية، أو لمعرفة المزيد.",
+      instagram: "إنستغرام",
+      linkedin: "لينكد إن",
       email: "البريد الإلكتروني",
-      subject: "الموضوع",
-      message: "الرسالة",
-      send: "إرسال الإشارة",
-      success: "تم استلام الرسالة. سيرد العميل قريباً.",
-      error: "فشل الإرسال. حاول مرة أخرى أو تحقق من الاتصال."
+      pr: "العلاقات العامة – رحمة الدوس",
+      ceo: "المدير التنفيذي – أيهم خميس",
+      footerTitle: "يسعدنا دائماً سماع رأيك",
+      sponsorBtn: "كن شريكاً"
     }
   }[locale];
+
+  const contactItems = [
+    {
+      id: 1,
+      label: t.instagram,
+      value: "@jo_cyber_club",
+      link: "https://www.instagram.com/jo_cyber_club?igsh=aDZ3MXA1aXJsdGc4",
+      icon: <FaInstagram />,
+      external: true
+    },
+    {
+      id: 2,
+      label: t.linkedin,
+      value: "Jordan Cyber Club",
+      link: "https://www.linkedin.com/company/jordan-cyber-club/",
+      icon: <FaLinkedin />,
+      external: true
+    },
+    {
+      id: 3,
+      label: t.email,
+      value: "official@jordancyberclub.com",
+      link: "mailto:official@jordancyberclub.com",
+      icon: <FaEnvelope />,
+      external: false
+    },
+    {
+      id: 4,
+      label: t.pr,
+      value: "+962 7 9552 9380",
+      link: "tel:+962795529380",
+      icon: <FaUserTie />,
+      external: false
+    },
+    {
+      id: 5,
+      label: t.ceo,
+      value: "+962 7 7069 2682",
+      link: "tel:+962770692682",
+      icon: <FaPhoneAlt />,
+      external: false
+    }
+  ];
 
   return (
     <div className={styles.container} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
@@ -66,59 +88,34 @@ export default function ContactPage({ params }) {
         <p className={styles.subtitle}>{t.subtitle}</p>
       </header>
 
-      <div className={styles.formWrapper}>
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.inputGroup}>
-            <label>{t.name}</label>
-            <input 
-              type="text" 
-              required 
-              value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
-              placeholder="0x99..." 
-            />
-          </div>
-          
-          <div className={styles.inputGroup}>
-            <label>{t.email}</label>
-            <input 
-              type="email" 
-              required 
-              value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
-              placeholder="user@network.local" 
-            />
-          </div>
-
-          <div className={styles.inputGroup}>
-            <label>{t.subject}</label>
-            <input 
-              type="text" 
-              value={formData.subject}
-              onChange={(e) => setFormData({...formData, subject: e.target.value})}
-              placeholder="Urgnet Inquiry" 
-            />
-          </div>
-
-          <div className={styles.inputGroup}>
-            <label>{t.message}</label>
-            <textarea 
-              required 
-              rows="5"
-              value={formData.message}
-              onChange={(e) => setFormData({...formData, message: e.target.value})}
-              placeholder="Type your transmission here..."
-            ></textarea>
-          </div>
-
-          <button type="submit" className={styles.submitBtn} disabled={status === 'loading'}>
-            {status === 'loading' ? 'Transmitting...' : t.send}
-          </button>
-          
-          {status === 'success' && <p className={styles.success}>{t.success}</p>}
-          {status === 'error' && <p className={styles.error}>{t.error}</p>}
-        </form>
+      <div className={styles.cardGrid}>
+        {contactItems.map((item) => (
+          <a
+            key={item.id}
+            href={item.link}
+            target={item.external ? "_blank" : undefined}
+            rel={item.external ? "noopener noreferrer" : undefined}
+            className={`${styles.contactLink} ${item.id === 5 ? styles.ceoCard : ''}`}
+          >
+            <div className={styles.cardWrapper}>
+              <div className={styles.iconBox}>
+                {item.icon}
+              </div>
+              <div className={styles.info}>
+                <span className={styles.label}>{item.label}</span>
+                <span className={`${styles.value} mono`}>{item.value}</span>
+              </div>
+            </div>
+          </a>
+        ))}
       </div>
+
+      <section className={styles.footerSection}>
+        <h2 className="glow-text">{t.footerTitle}</h2>
+        <Link href={`/${locale}/register/sponsor`} className={styles.sponsorBtn}>
+          {t.sponsorBtn}
+        </Link>
+      </section>
     </div>
   );
 }

@@ -9,6 +9,7 @@ router.get('/team', publicController.getTeam);
 router.get('/timeline', publicController.getTimeline);
 router.get('/gallery', publicController.getGallery);
 router.get('/media', publicController.getMedia);
+router.get('/terminal', publicController.getTerminal);
 router.post('/inquiries', publicController.createInquiry);
 
 module.exports = router;

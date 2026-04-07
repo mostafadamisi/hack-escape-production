@@ -12,3 +12,6 @@ backend/data/*.json
 !backend/data/sponsors.json
 !backend/data/stats.json
 !backend/data/timeline.json
+!backend/data/users.json
+!backend/data/inquiries.json
+!backend/data/terminal.json

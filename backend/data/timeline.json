@@ -4,29 +4,57 @@
       "en": "Team Formation",
       "ar": "تكوين الفريق"
     },
+    "description": {
+      "en": "Building the core team and defining key technical roles for the simulation.",
+      "ar": "بناء الفريق الأساسي وتحديد الأدوار الفنية الرئيسية للمحاكاة."
+    },
     "date": "Jan 2026",
     "order": 1,
     "_id": "1",
-    "createdAt": "2026-03-27T00:03:36.173Z"
+    "createdAt": "2026-04-02T18:42:56.075Z",
+    "updatedAt": "2026-04-07T10:43:05.544Z"
   },
   {
     "title": {
       "en": "Challenge Dev",
       "ar": "تطوير التحديات"
     },
+    "description": {
+      "en": "Designing high-fidelity cybersecurity challenges and physical puzzles.",
+      "ar": "تصميم تحديات الأمن السيبراني عالية الدقة والألغاز المادية."
+    },
     "date": "Mar 2026",
-    "order": 2,
+    "order": 0,
     "_id": "2",
-    "createdAt": "2026-03-27T00:03:36.173Z"
+    "createdAt": "2026-04-02T18:42:56.075Z",
+    "updatedAt": "2026-04-07T10:43:05.544Z"
   },
   {
     "title": {
       "en": "Event Launch",
       "ar": "إطلاق الفعالية"
     },
+    "description": {
+      "en": "Official execution of Hack & Escape with regional teams and live coverage.",
+      "ar": "التنفيذ الرسمي لـ Hack & Escape مع فرق إقليمية وتغطية مباشرة."
+    },
     "date": "July 2026",
-    "order": 5,
+    "order": 2,
     "_id": "3",
-    "createdAt": "2026-03-27T00:03:36.173Z"
+    "createdAt": "2026-04-02T18:42:56.075Z",
+    "updatedAt": "2026-04-07T10:43:05.545Z"
+  },
+  {
+    "title": {
+      "en": "asdga",
+      "ar": "شسيشس"
+    },
+    "description": {
+      "en": "idk",
+      "ar": "مش عارف"
+    },
+    "date": "JAN 2044",
+    "_id": "1775558685016",
+    "createdAt": "2026-04-07T10:44:45.016Z"
   }
 ]

@@ -1,80 +1,83 @@
 'use client';
-import { useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import styles from './login.module.css';
 
-export default function AdminLoginPage() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const { locale } = useParams();
+import React, { useState } from 'react';
+import { useAuth } from '@/components/admin/AuthContext';
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+export default function LoginPage() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const { login } = useAuth();
 
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        setLoading(true);
+        try {
+            await login(email, password);
+        } catch (err) {
+            setError(err.message || 'Login failed. Please check your credentials.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
-      const data = await res.json();
-
-      if (res.ok) {
-        localStorage.setItem('admin_token', data.token);
-        router.push(`/${locale}/admin`);
-      } else {
-        setError(data.message || 'Verification Failed');
-      }
-    } catch (err) {
-      setError('Connection to node failed.');
-    } finally {
-      setLoading(false);
+    if (loading) {
+        return (
+            <div className="admin-shell" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', fontSize: '2rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                    <p className="vt323">LOADING...</p>
+                    <div style={{ width: '256px', height: '4px', background: '#333', position: 'relative', overflow: 'hidden' }}>
+                        <div style={{ height: '100%', background: 'var(--admin-red)', width: '50%', position: 'absolute' }}></div>
+                    </div>
+                </div>
+            </div>
+        );
     }
-  };
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <div className={styles.header}>
-          <h1 className="glow-text">ADMIN_OVRD</h1>
-          <p>Restricted Access - Authorization Required</p>
+    return (
+        <div className="admin-login-layout admin-shell">
+            <div className="admin-login-left hidden md:flex">
+                <h1 className="admin-login-headline michroma">
+                    ADMIN LOGIN
+                </h1>
+            </div>
+
+            <div className="admin-login-right">
+                <div className="admin-login-form-box stagger-5">
+                    
+                    <div className="admin-login-form-header">
+                        <h2 className="michroma">Login</h2>
+                        <p className="vt323">Input credentials to access the admin dashboard.</p>
+                    </div>
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="admin-login-field">
+                            <label className="vt323">Email</label>
+                            <input id="email" type="email" required placeholder="name@email.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        </div>
+                        <div className="admin-login-field">
+                            <label className="vt323">Password</label>
+                            <input id="password" type="password" required placeholder="*********" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        </div>
+
+                        {error && (
+                            <div className="admin-login-error">
+                                !! {error} !!
+                            </div>
+                        )}
+
+                        <button type="submit" disabled={loading} className="admin-login-submit">
+                            Log In
+                        </button>
+                    </form>
+
+                    <div className="vt323" style={{ marginTop: '3rem', display: 'flex', justifyContent: 'flex-start', color: '#555', fontSize: '1.25rem' }}>
+                        <span>Dashboard Access</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <form onSubmit={handleLogin} className={styles.form}>
-          <div className={styles.inputGroup}>
-            <label>ADMIN_ID</label>
-            <input 
-              type="email" 
-              required 
-              value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
-              placeholder="root@system.local" 
-            />
-          </div>
-
-          <div className={styles.inputGroup}>
-            <label>ACCESS_KEY</label>
-            <input 
-              type="password" 
-              required 
-              value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
-              placeholder="••••••••" 
-            />
-          </div>
-
-          <button type="submit" disabled={loading} className={styles.loginBtn}>
-            {loading ? 'DCRYPTING...' : 'INITIATE_AUTH'}
-          </button>
-
-          {error && <p className={styles.error}>{error}</p>}
-        </form>
-      </div>
-    </div>
-  );
+    );
 }

@@ -1,14 +1,15 @@
 'use client';
-import { useState } from 'react';
+import { useState, use } from 'react';
 import styles from '../register.module.css';
 
 export default function SponsorRegisterPage({ params }) {
-  const { locale } = params;
+  const { locale } = use(params);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     companyName: '',
-    tierInterest: 'gold',
+    tierInterest: 'platinum',
     message: ''
   });
   const [status, setStatus] = useState(null);
@@ -23,18 +24,18 @@ export default function SponsorRegisterPage({ params }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          type: 'sponsor',
-          details: { companyName: formData.companyName, tierInterest: formData.tierInterest }
+          type: 'sponsor'
         })
       });
 
       if (res.ok) {
         setStatus('success');
-        setFormData({ name: '', email: '', companyName: '', tierInterest: 'gold', message: '' });
+        setFormData({ name: '', email: '', phone: '', companyName: '', tierInterest: 'platinum', message: '' });
       } else {
         setStatus('error');
       }
     } catch (err) {
+      console.error(err);
       setStatus('error');
     }
   };
@@ -46,11 +47,12 @@ export default function SponsorRegisterPage({ params }) {
       company: "Company Name",
       contactName: "Contact Person",
       email: "Corporate Email",
+      phone: "Phone Number",
       tier: "Interest Tier",
       message: "Additional Details / Goals",
       submit: "Submit Proposal",
-      success: "Proposal Sent. Our partnership team will reach out.",
-      error: "Error sending proposal. Please try again."
+      success: "Your request has been sent successfully. Our team will contact you soon.",
+      error: "Something went wrong. Please try again later."
     },
     ar: {
       title: "كن شريكاً",
@@ -58,11 +60,12 @@ export default function SponsorRegisterPage({ params }) {
       company: "اسم الشركة",
       contactName: "اسم الشخص المسؤول",
       email: "البريد الإلكتروني للشركة",
+      phone: "رقم الهاتف",
       tier: "فئة الاهتمام",
       message: "تفاصيل إضافية / أهداف",
       submit: "إرسال المقترح",
-      success: "تم إرسال المقترح. سيتواصل معك فريق الشراكات لدينا.",
-      error: "خطأ في إرسال المقترح. يرجى المحاولة مرة أخرى."
+      success: "تم إرسال طلبك بنجاح. سيتواصل معك فريقنا قريباً.",
+      error: "حدث خطأ ما. يرجى المحاولة مرة أخرى لاحقاً."
     }
   }[locale];
 
@@ -76,7 +79,7 @@ export default function SponsorRegisterPage({ params }) {
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.inputGroup}>
-            <label>{t.company}</label>
+            <label>{t.company} *</label>
             <input
               type="text"
               required
@@ -87,18 +90,18 @@ export default function SponsorRegisterPage({ params }) {
           </div>
 
           <div className={styles.inputGroup}>
-            <label>{t.contactName}</label>
+            <label>{t.contactName} *</label>
             <input
               type="text"
               required
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="John Doe"
+              placeholder="Full Name"
             />
           </div>
 
           <div className={styles.inputGroup}>
-            <label>{t.email}</label>
+            <label>{t.email} *</label>
             <input
               type="email"
               required
@@ -109,31 +112,45 @@ export default function SponsorRegisterPage({ params }) {
           </div>
 
           <div className={styles.inputGroup}>
-            <label>{t.tier}</label>
+            <label>{t.phone} *</label>
+            <input
+              type="tel"
+              required
+              style={{ direction: 'ltr' }}
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              placeholder="+962 7X XXX XXXX"
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label>{t.tier} *</label>
             <select
+              required
               value={formData.tierInterest}
               onChange={(e) => setFormData({ ...formData, tierInterest: e.target.value })}
               className={styles.select}
             >
-              <option value="strategic">Strategic Partner</option>
-              <option value="gold">Gold Sponsor</option>
-              <option value="silver">Silver Sponsor</option>
-              <option value="bronze">Bronze Sponsor</option>
+              <option value="platinum">{locale === 'en' ? 'Platinum' : 'بلاتيني'}</option>
+              <option value="gold">{locale === 'en' ? 'Gold' : 'ذهبي'}</option>
+              <option value="silver">{locale === 'en' ? 'Silver' : 'فضي'}</option>
+              <option value="others">{locale === 'en' ? 'Others' : 'أخرى'}</option>
             </select>
           </div>
 
           <div className={styles.inputGroup}>
-            <label>{t.message}</label>
+            <label>{t.message} *</label>
             <textarea
+              required
               rows="4"
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              placeholder="Tell us about your sponsorship goals..."
+              placeholder={locale === 'en' ? "Tell us about your sponsorship goals..." : "أخبرنا عن أهدافك من الرعاية..."}
             ></textarea>
           </div>
 
           <button type="submit" className={styles.submitBtn} disabled={status === 'loading'}>
-            {status === 'loading' ? 'Sending...' : t.submit}
+            {status === 'loading' ? (locale === 'en' ? 'Sending...' : 'جاري الإرسال...') : t.submit}
           </button>
 
           {status === 'success' && <p className={styles.success}>{t.success}</p>}

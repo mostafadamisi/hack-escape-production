@@ -148,6 +148,10 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
+.sponsorsSection {
+  padding: 40px 5%;
+}
+
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
