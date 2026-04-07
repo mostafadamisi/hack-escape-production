@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const DATA_DIR = process.env.DATA_PATH || path.join(process.cwd(), '../storage/data');
+const STORAGE_ROOT = process.env.NODE_ENV === 'production' ? '/app/storage' : path.join(process.cwd(), '../storage');
+const DATA_DIR = process.env.DATA_PATH || path.join(STORAGE_ROOT, 'data');
 
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
