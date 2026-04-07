@@ -42,13 +42,25 @@ try {
 
 app.use('/uploads', express.static(UPLOADS_DIR));
 
-// Basic Route
-app.get('/', (req, res) => {
-    res.json({
-        message: 'Hack & Escape API — Secure, Scalable, and Bilingual.',
-        status: 'UP'
-    });
+// Debug Route for Storage
+app.get('/api/debug/storage', (req, res) => {
+    try {
+        const dataFiles = fs.existsSync(DATA_DIR) ? fs.readdirSync(DATA_DIR) : 'DIR_MISSING';
+        const uploadFiles = fs.existsSync(UPLOADS_DIR) ? fs.readdirSync(UPLOADS_DIR) : 'DIR_MISSING';
+        res.json({
+            node_env: process.env.NODE_ENV,
+            cwd: process.cwd(),
+            DATA_DIR,
+            UPLOADS_DIR,
+            dataFiles,
+            uploadFiles
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
+
+// Basic Route
 
 // APIs
 app.use('/api', require('./routes/publicRoutes'));
