@@ -52,7 +52,7 @@ export default function AdminGalleryPage() {
                 title: safeParse(item.title),
                 category: safeParse(item.category),
             });
-            setPreviewUrl(item.image?.startsWith('http') ? item.image : `http://127.0.0.1:5000${item.image}`);
+            setPreviewUrl(item.image?.startsWith('http') ? item.image : `${item.image}`);
         } else {
             setEditMode('add');
             setFormData({ _id: null, title: { en: '', ar: '' }, category: { en: '', ar: '' } });

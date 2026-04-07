@@ -43,40 +43,13 @@ try {
 
 app.use('/uploads', express.static(UPLOADS_DIR));
 
-// Debug Route for Storage
-app.get('/api/debug/storage', (req, res) => {
-    try {
-        const dataFiles = fs.existsSync(DATA_DIR) ? fs.readdirSync(DATA_DIR) : 'DIR_MISSING';
-        const uploadFiles = fs.existsSync(UPLOADS_DIR) ? fs.readdirSync(UPLOADS_DIR) : 'DIR_MISSING';
-        
-        let gallerySample = null;
-        try {
-            const galleryData = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'gallery.json'), 'utf8'));
-            gallerySample = galleryData.length > 0 ? galleryData[0] : 'EMPTY';
-        } catch (e) {}
-
-        let membersSample = null;
-        try {
-            const membersData = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'members.json'), 'utf8'));
-            membersSample = membersData.length > 0 ? membersData[0] : 'EMPTY';
-        } catch (e) {}
-
-        res.json({
-            node_env: process.env.NODE_ENV,
-            cwd: process.cwd(),
-            DATA_DIR,
-            UPLOADS_DIR,
-            dataFiles,
-            uploadFiles,
-            gallerySample,
-            membersSample
-        });
-    } catch (e) {
-        res.status(500).json({ error: e.message });
-    }
-});
-
 // Basic Route
+app.get('/', (req, res) => {
+    res.json({
+        message: 'Hack & Escape API — Secure, Scalable, and Bilingual.',
+        status: 'UP'
+    });
+});
 
 // APIs
 app.use('/api', require('./routes/publicRoutes'));
