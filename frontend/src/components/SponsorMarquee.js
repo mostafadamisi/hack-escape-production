@@ -12,7 +12,7 @@ export default function SponsorMarquee({ sponsors }) {
         {displaySponsors.map((sponsor, index) => (
           <div key={`${sponsor._id}-${index}`} className={styles.sponsorLogo}>
             <img 
-              src={sponsor.image.startsWith('http') ? sponsor.image : `http://127.0.0.1:5000${sponsor.image}`} 
+              src={sponsor.image.startsWith('http') ? sponsor.image : `${sponsor.image}`} 
               alt="Sponsor" 
             />
           </div>

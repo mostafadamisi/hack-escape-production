@@ -13,8 +13,9 @@ router.use(protect);
 const deleteFileIfExists = (fileUrl) => {
     if (!fileUrl) return;
     try {
-        const normalizedUrl = fileUrl.startsWith('/') ? fileUrl.slice(1) : fileUrl;
-        const filePath = path.join(__dirname, '../../public', normalizedUrl);
+        const STORAGE_ROOT = process.env.NODE_ENV === 'production' ? '/app/storage' : path.join(process.cwd(), '../storage');
+        const fileName = path.basename(fileUrl);
+        const filePath = path.join(STORAGE_ROOT, 'uploads', fileName);
         if (fs.existsSync(filePath)) {
             fs.unlinkSync(filePath);
         }
