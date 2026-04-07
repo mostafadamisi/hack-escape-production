@@ -7,6 +7,11 @@ if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
+const getFilePath = (collection) => path.join(DATA_DIR, `${collection}.json`);
+
+const readData = (collection) => {
+  const filePath = getFilePath(collection);
+  
   // Auto-seed if file doesn't exist
   if (!fs.existsSync(filePath)) {
     const defaultPath = path.join(__dirname, '../defaults', `${collection}.json`);
