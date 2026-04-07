@@ -36,4 +36,6 @@ EXPOSE 3000
 # Start both services
 # Next.js will listen on PORT (e.g. 3000 or whatever Railway gives us)
 # Express will listen on 5001 (internal inside container)
+# We ensure the storage directories exist
+RUN mkdir -p /app/storage/data /app/storage/uploads
 CMD ["concurrently", "-n", "backend,frontend", "-c", "red,blue", "cd backend && PORT=5001 node server.js", "cd frontend && npm start"]

@@ -1,0 +1,25 @@
+[
+  {
+    "name": {
+      "en": "asdgsd",
+      "ar": "asdgsdga"
+    },
+    "role": {
+      "en": "asdgsdga",
+      "ar": "asdgsadg"
+    },
+    "bio": {
+      "en": "sadgsdag",
+      "ar": "asdgdsag"
+    },
+    "position": {
+      "en": "asdasd",
+      "ar": "sdgdsag"
+    },
+    "linkedin": "https://github.com/github/spec-kit?tab=readme-ov-file",
+    "image": "/uploads/1775552209655-149996515.jpg",
+    "_id": "1775552130502",
+    "createdAt": "2026-04-07T08:55:30.502Z",
+    "updatedAt": "2026-04-07T08:56:49.656Z"
+  }
+]

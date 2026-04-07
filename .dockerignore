@@ -5,7 +5,7 @@ out
 .vscode
 *.log
 .env
-backend/data/*
-backend/public/uploads/*
-!backend/data/.gitkeep
-!backend/public/uploads/.gitkeep
+storage/uploads/*
+!storage/data/*.json
+!storage/data/.gitkeep
+!storage/public/uploads/.gitkeep
