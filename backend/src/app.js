@@ -15,6 +15,28 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 const UPLOADS_DIR = process.env.UPLOADS_PATH || path.join(process.cwd(), '../storage/uploads');
+
+// Auto-seed uploads if empty
+if (!fs.existsSync(UPLOADS_DIR)) {
+    fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+}
+
+try {
+    const files = fs.readdirSync(UPLOADS_DIR);
+    if (files.length === 0) {
+        const defaultsUploads = path.join(__dirname, 'defaults/uploads');
+        if (fs.existsSync(defaultsUploads)) {
+            const defaultFiles = fs.readdirSync(defaultsUploads);
+            defaultFiles.forEach(file => {
+                fs.copyFileSync(path.join(defaultsUploads, file), path.join(UPLOADS_DIR, file));
+            });
+            console.log(`[App] Seeded ${defaultFiles.length} images from defaults.`);
+        }
+    }
+} catch (e) {
+    console.error('[App] Failed to seed uploads:', e);
+}
+
 app.use('/uploads', express.static(UPLOADS_DIR));
 
 // Basic Route
