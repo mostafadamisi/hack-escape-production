@@ -18,6 +18,7 @@ app.use(express.json());
 
 const STORAGE_ROOT = process.env.NODE_ENV === 'production' ? '/app/storage' : path.join(process.cwd(), '../storage');
 const UPLOADS_DIR = process.env.UPLOADS_PATH || path.join(STORAGE_ROOT, 'uploads');
+const DATA_DIR = process.env.DATA_PATH || path.join(STORAGE_ROOT, 'data');
 
 // Auto-seed uploads if empty
 if (!fs.existsSync(UPLOADS_DIR)) {
