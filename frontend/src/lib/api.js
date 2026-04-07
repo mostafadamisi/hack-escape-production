@@ -1,5 +1,5 @@
 const IS_SERVER = typeof window === 'undefined';
-const BASE_URL = IS_SERVER ? 'http://127.0.0.1:5001/api' : '/api';
+const BASE_URL = IS_SERVER ? 'http://localhost:5001/api' : '/api';
 
 const getAuthHeaders = () => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
