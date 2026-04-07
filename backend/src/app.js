@@ -14,7 +14,7 @@ app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
-const UPLOADS_DIR = process.env.UPLOADS_PATH || path.join(__dirname, '../../storage/uploads');
+const UPLOADS_DIR = process.env.UPLOADS_PATH || path.join(process.cwd(), '../storage/uploads');
 app.use('/uploads', express.static(UPLOADS_DIR));
 
 // Basic Route

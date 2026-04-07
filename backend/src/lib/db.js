@@ -1,23 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 
-const DATA_DIR = process.env.DATA_PATH || path.join(__dirname, '../../storage/data');
+const DATA_DIR = process.env.DATA_PATH || path.join(process.cwd(), '../storage/data');
 
 if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR);
+  fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-const getFilePath = (collection) => path.join(DATA_DIR, `${collection}.json`);
-
-const readData = (collection) => {
-  const filePath = getFilePath(collection);
-  
   // Auto-seed if file doesn't exist
   if (!fs.existsSync(filePath)) {
     const defaultPath = path.join(__dirname, '../defaults', `${collection}.json`);
     if (fs.existsSync(defaultPath)) {
       try {
         const content = fs.readFileSync(defaultPath, 'utf8');
+        fs.mkdirSync(path.dirname(filePath), { recursive: true });
         fs.writeFileSync(filePath, content);
         console.log(`[DB] Seeded ${collection} from defaults.`);
       } catch (e) {
