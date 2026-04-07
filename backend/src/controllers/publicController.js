@@ -44,6 +44,15 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+// Verify connection on startup
+transporter.verify((error, success) => {
+    if (error) {
+        console.error('[Mail] Connection failed:', error.message);
+    } else {
+        console.log('[Mail] Server is ready to take our messages');
+    }
+});
+
 exports.createInquiry = async (req, res) => {
     try {
         const inquiryData = req.body;
