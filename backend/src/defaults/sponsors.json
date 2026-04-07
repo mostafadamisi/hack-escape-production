@@ -1,0 +1,31 @@
+[
+  {
+    "image": "/uploads/Nike_logo_PNG5.png",
+    "_id": "Nike",
+    "order": 1,
+    "createdAt": "2026-04-07T10:15:00.000Z",
+    "updatedAt": "2026-04-07T11:25:46.619Z"
+  },
+  {
+    "image": "/uploads/Teletoon-Emblem.png",
+    "_id": "Teletoon",
+    "order": 2,
+    "createdAt": "2026-04-07T10:15:01.000Z",
+    "updatedAt": "2026-04-07T11:25:46.619Z"
+  },
+  {
+    "name": "ZIP",
+    "image": "/uploads/ZIP-Logo-PNG-3.png",
+    "_id": "ZIP",
+    "order": 3,
+    "createdAt": "2026-04-07T10:15:02.000Z",
+    "updatedAt": "2026-04-07T11:25:46.620Z"
+  },
+  {
+    "image": "/uploads/1775561143615-402778690.jpg",
+    "_id": "1775561143616",
+    "createdAt": "2026-04-07T11:25:43.617Z",
+    "order": 0,
+    "updatedAt": "2026-04-07T11:25:46.618Z"
+  }
+]

@@ -11,7 +11,23 @@ const getFilePath = (collection) => path.join(DATA_DIR, `${collection}.json`);
 
 const readData = (collection) => {
   const filePath = getFilePath(collection);
-  if (!fs.existsSync(filePath)) return [];
+  
+  // Auto-seed if file doesn't exist
+  if (!fs.existsSync(filePath)) {
+    const defaultPath = path.join(__dirname, '../defaults', `${collection}.json`);
+    if (fs.existsSync(defaultPath)) {
+      try {
+        const content = fs.readFileSync(defaultPath, 'utf8');
+        fs.writeFileSync(filePath, content);
+        console.log(`[DB] Seeded ${collection} from defaults.`);
+      } catch (e) {
+        console.error(`[DB] Failed to seed ${collection}:`, e);
+      }
+    } else {
+      return [];
+    }
+  }
+
   try {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   } catch (e) {
