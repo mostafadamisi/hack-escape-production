@@ -132,7 +132,7 @@ export default function AdminTeamPage() {
                     {members.map(item => (
                         <div key={item._id} className="brutalist-border" style={{ padding: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#000' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                                <div style={{ width: '80px', height: '80px', backgroundImage: `url(${item.image?.startsWith('http') ? item.image : 'http://127.0.0.1:5000' + item.image})`, backgroundSize: 'cover', backgroundPosition: 'center', borderRadius: '4px', border: '1px solid #333' }}></div>
+                                <div style={{ width: '80px', height: '80px', backgroundImage: `url(${item.image})`, backgroundSize: 'cover', backgroundPosition: 'center', borderRadius: '4px', border: '1px solid #333' }}></div>
                                 <div className="vt323">
                                     <h3 style={{ fontSize: '1.5rem', margin: 0, color: 'var(--admin-red)' }}>{renderText(item.name)}</h3>
                                     <p style={{ margin: '0.25rem 0 0 0', color: '#fff', fontSize: '1.25rem' }}>{renderText(item.role)}</p>

@@ -119,7 +119,7 @@ export default function AdminGalleryPage() {
                 <div className="admin-nodes-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
                     {items.map(item => (
                         <div key={item._id} className="brutalist-border" style={{ display: 'flex', flexDirection: 'column', background: '#000' }}>
-                            <div style={{ height: '200px', width: '100%', backgroundImage: `url(${item.image?.startsWith('http') ? item.image : 'http://127.0.0.1:5000' + item.image})`, backgroundSize: 'cover', backgroundPosition: 'center', borderBottom: '2px solid #333' }}></div>
+                            <div style={{ height: '200px', width: '100%', backgroundImage: `url(${item.image})`, backgroundSize: 'cover', backgroundPosition: 'center', borderBottom: '2px solid #333' }}></div>
                             <div className="vt323" style={{ padding: '1rem' }}>
                                 <h3 style={{ fontSize: '1.25rem', margin: '0 0 0.5rem 0', color: 'var(--admin-red)' }}>{typeof item.title === 'object' ? item.title.en : item.title}</h3>
                                 <p style={{ fontSize: '1rem', color: '#888', margin: '0 0 1rem 0' }}>{typeof item.category === 'object' ? item.category.en : item.category}</p>

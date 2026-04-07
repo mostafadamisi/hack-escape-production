@@ -114,7 +114,7 @@ export default function AdminSponsorsPage() {
                 <div className="admin-nodes-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
                     {items.map((item, index) => (
                         <div key={item._id} className="brutalist-border" style={{ display: 'flex', flexDirection: 'column', background: '#222' }}>
-                            <div style={{ height: '150px', width: '100%', backgroundImage: `url(${item.image?.startsWith('http') ? item.image : 'http://127.0.0.1:5000' + item.image})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', borderBottom: '2px solid #555' }}></div>
+                            <div style={{ height: '150px', width: '100%', backgroundImage: `url(${item.image?.startsWith('http') ? item.image : '' + item.image})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', borderBottom: '2px solid #555' }}></div>
                             <div className="vt323" style={{ padding: '0.5rem' }}>
                                 <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
                                     <button 
