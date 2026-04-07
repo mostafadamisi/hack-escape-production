@@ -48,7 +48,7 @@ export default function AdminTeamPage() {
                 position: typeof member.position === 'object' ? member.position : { en: member.position, ar: member.position },
                 linkedin: member.linkedin || ''
             });
-            setPreviewUrl(member.image?.startsWith('http') ? member.image : `http://127.0.0.1:5000${member.image}`);
+            setPreviewUrl(member.image || '');
         } else {
             setEditMode('add');
             setFormData({ 

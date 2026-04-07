@@ -35,7 +35,7 @@ export default async function GalleryPage({ params }) {
             <div key={`${img._id}-${i}`} className={styles.galleryItem}>
               <div className={styles.imageWrapper}>
                 <img 
-                  src={img.url?.startsWith('http') ? img.url : `http://127.0.0.1:5000${img.url}`} 
+                  src={img.url} 
                   alt={typeof img.title === 'string' ? img.title : (img.title?.[locale] || img.title?.en)} 
                   className={styles.actualImage} 
                 />

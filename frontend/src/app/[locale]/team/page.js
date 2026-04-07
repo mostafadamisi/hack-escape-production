@@ -25,7 +25,7 @@ export default async function TeamPage({ params }) {
               <div className={styles.memberInfo}>
                 <div className={styles.imagePlaceholder} style={{ overflow: 'hidden' }}>
                   {member.image ? (
-                    <img src={member.image.startsWith('http') ? member.image : `http://127.0.0.1:5000${member.image}`} alt={member.name} className={styles.memberImg} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={member.image} alt={member.name} className={styles.memberImg} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
                     <div className={styles.cyberAvatar}></div>
                   )}
