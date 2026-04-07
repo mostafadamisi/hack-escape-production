@@ -1,7 +1,4 @@
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
+const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
 
@@ -14,7 +11,9 @@ app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
-const UPLOADS_DIR = process.env.UPLOADS_PATH || path.join(process.cwd(), '../storage/uploads');
+
+const STORAGE_ROOT = process.env.NODE_ENV === 'production' ? '/app/storage' : path.join(process.cwd(), '../storage');
+const UPLOADS_DIR = process.env.UPLOADS_PATH || path.join(STORAGE_ROOT, 'uploads');
 
 // Auto-seed uploads if empty
 if (!fs.existsSync(UPLOADS_DIR)) {
