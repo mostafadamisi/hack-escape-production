@@ -92,14 +92,22 @@ exports.createInquiry = async (req, res) => {
         const isSponsor = inquiryData.type === 'sponsor';
         const recipient = 'official@jordancyberclub.com';
         
-        // Generate Telegram Message
-        const telegramMsg = `<b>🚀 New ${isSponsor ? 'Sponsorship Request' : 'Contact Inquiry'}</b>\n\n` +
+        // Generate Telegram Message based on type
+        let telegramMsg = `<b>🚀 New ${isSponsor ? 'Sponsorship Request' : 'Team Registration'}</b>\n\n` +
             `<b>Name:</b> ${inquiryData.name}\n` +
-            `<b>Email:</b> ${inquiryData.email}\n` +
-            `<b>Phone:</b> ${inquiryData.phone || 'N/A'}\n` +
-            (isSponsor ? `<b>Company:</b> ${inquiryData.companyName || 'N/A'}\n` : '') +
-            (isSponsor ? `<b>Tier Interest:</b> ${inquiryData.tierInterest || inquiryData.details?.tierInterest || 'N/A'}\n` : '') +
-            `<b>Message:</b>\n<i>${inquiryData.message}</i>`;
+            `<b>Email:</b> ${inquiryData.email}\n`;
+
+        if (isSponsor) {
+            telegramMsg += `<b>Company:</b> ${inquiryData.companyName || 'N/A'}\n` +
+                           `<b>Tier Interest:</b> ${inquiryData.tierInterest || inquiryData.details?.tierInterest || 'N/A'}\n`;
+        } else if (inquiryData.type === 'team') {
+            const teamDetails = inquiryData.details || {};
+            telegramMsg += `<b>Team Name:</b> ${inquiryData.teamName || teamDetails.teamName || 'N/A'}\n` +
+                           `<b>University:</b> ${inquiryData.university || teamDetails.university || 'N/A'}\n`;
+        }
+        
+        telegramMsg += `<b>Phone:</b> ${inquiryData.phone || 'N/A'}\n` +
+                       `<b>Message:</b>\n<i>${inquiryData.message || 'N/A'}</i>`;
 
         // 1. Send Telegram Notification (Primary)
         try {
