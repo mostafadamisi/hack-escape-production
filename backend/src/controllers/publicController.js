@@ -87,7 +87,17 @@ const sendTelegramMessage = (message) => {
 exports.createInquiry = async (req, res) => {
     try {
         const inquiryData = req.body;
-        const newInquiry = db.create('inquiries', inquiryData);
+        let newInquiryId = 'temp-' + Date.now();
+        
+        // 1. Try to persist to DB (Storage)
+        try {
+            const newInquiry = db.create('inquiries', inquiryData);
+            newInquiryId = newInquiry._id;
+        } catch (dbErr) {
+            console.error("INQUIRY DB WRITE FAILED:", dbErr.message);
+            console.error("HINT: Ensure Railway volume matches /app/storage/data");
+            // We continue anyway to ensure the user gets notified via Telegram
+        }
 
         const isSponsor = inquiryData.type === 'sponsor';
         const recipient = 'official@jordancyberclub.com';
@@ -108,7 +118,7 @@ exports.createInquiry = async (req, res) => {
         
         telegramMsg += `<b>Phone:</b> ${inquiryData.phone || 'N/A'}\n` +
                        `<b>Message:</b>\n<i>${inquiryData.message || 'N/A'}</i>`;
-
+        
         // 1. Send Telegram Notification (Primary)
         try {
             await sendTelegramMessage(telegramMsg);
@@ -142,7 +152,7 @@ exports.createInquiry = async (req, res) => {
             }
         }
 
-        res.status(201).json({ message: 'Success', id: newInquiry._id });
+        res.status(201).json({ message: 'Success', id: newInquiryId });
     } catch (error) {
         console.error("INQUIRY CREATE ERROR:", error.message);
         // Provide more context in logs
