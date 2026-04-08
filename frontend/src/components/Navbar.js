@@ -1,9 +1,11 @@
-'use client';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter, usePathname } from 'next/navigation';
+import { MdMenu, MdClose } from 'react-icons/md';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
   const params = useParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -13,7 +15,10 @@ export default function Navbar() {
     const nextLocale = locale === 'en' ? 'ar' : 'en';
     const newPath = pathname.replace(`/${locale}`, `/${nextLocale}`);
     router.push(newPath || `/${nextLocale}`);
+    setIsOpen(false);
   };
+
+  const toggleMenu = () => setIsOpen(!isOpen);
 
   const navLinks = [
     { href: '', label: locale === 'en' ? 'Home' : 'الرئيسية' },
@@ -30,11 +35,20 @@ export default function Navbar() {
   return (
     <nav className={styles.nav} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <div className={styles.logo}>
-        <Link href={`/${locale}`}>HACK & ESCAPE</Link>
+        <Link href={`/${locale}`} onClick={() => setIsOpen(false)}>HACK & ESCAPE</Link>
       </div>
-      <div className={styles.links}>
+
+      <button className={styles.mobileToggle} onClick={toggleMenu} aria-label="Toggle Menu">
+        {isOpen ? <MdClose /> : <MdMenu />}
+      </button>
+
+      <div className={`${styles.links} ${isOpen ? styles.linksOpen : ''}`}>
         {navLinks.map((link) => (
-          <Link key={link.href} href={`/${locale}${link.href}`}>
+          <Link 
+            key={link.href} 
+            href={`/${locale}${link.href}`}
+            onClick={() => setIsOpen(false)}
+          >
             {link.label}
           </Link>
         ))}
