@@ -39,11 +39,14 @@ const clean = (val) => val ? val.replace(/^["']|["']$/g, '').trim() : '';
 // Email config
 const transporter = nodemailer.createTransport({
     host: clean(process.env.EMAIL_HOST),
-    port: Number(clean(process.env.EMAIL_PORT)) || 465,
-    secure: true,
+    port: Number(clean(process.env.EMAIL_PORT)) || 587, // Default to 587 for cloud compatibility
+    secure: clean(process.env.EMAIL_PORT) === '465', // Only true for 465
     auth: {
         user: clean(process.env.EMAIL_USER),
         pass: clean(process.env.EMAIL_PASS)
+    },
+    tls: {
+        rejectUnauthorized: false // Helps with some cloud network cert issues
     }
 });
 
