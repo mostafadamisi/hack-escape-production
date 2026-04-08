@@ -33,14 +33,17 @@ exports.getTeam = getAllHelper('members');
 exports.getGallery = getAllHelper('gallery');
 exports.getMedia = getAllHelper('media');
 
+// Helper to clean env variables (strips quotes if present)
+const clean = (val) => val ? val.replace(/^["']|["']$/g, '').trim() : '';
+
 // Email config
 const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: Number(process.env.EMAIL_PORT) || 465,
+    host: clean(process.env.EMAIL_HOST),
+    port: Number(clean(process.env.EMAIL_PORT)) || 465,
     secure: true,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: clean(process.env.EMAIL_USER),
+        pass: clean(process.env.EMAIL_PASS)
     }
 });
 
@@ -93,8 +96,15 @@ exports.createInquiry = async (req, res) => {
 
         res.status(201).json({ message: 'Success', id: newInquiry._id });
     } catch (error) {
-        console.error("INQUIRY ERROR:", error.message);
-        res.status(500).json({ message: 'Something went wrong. Please try again later.' });
+        console.error("INQUIRY CREATE ERROR:", error.message);
+        // Provide more context in logs
+        if (error.code === 'EACCES' || error.message.includes('permission denied')) {
+            console.error("HINT: Database write failed. Ensure Railway volume is mounted at /app/storage");
+        }
+        res.status(500).json({ 
+            message: 'Something went wrong. Please try again later.',
+            error: process.env.NODE_ENV === 'production' ? null : error.message 
+        });
     }
 };
 
