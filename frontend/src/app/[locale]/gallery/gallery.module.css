@@ -1,19 +1,19 @@
 .container {
-  padding: 120px 5% 60px;
+  padding: 100px 5% 40px;
   min-height: 100vh;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .header h1 {
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 8vw, 3.5rem);
 }
 
 .subtitle {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: var(--primary);
   opacity: 0.8;
 }
@@ -23,6 +23,23 @@
   column-gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 80px 4% 30px;
+  }
+
+  .masonry {
+    columns: 2 150px;
+    column-gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .masonry {
+    columns: 1;
+  }
 }
 
 .galleryItem {
@@ -68,6 +85,22 @@
 
 .galleryItem:hover .overlay {
   transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .overlay {
+    transform: translateY(0);
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    padding: 12px;
+  }
+  
+  .itemTitle {
+    font-size: 0.9rem;
+  }
+
+  .category {
+    font-size: 0.6rem;
+  }
 }
 
 .category {

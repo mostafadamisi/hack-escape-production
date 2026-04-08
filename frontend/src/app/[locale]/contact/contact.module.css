@@ -1,5 +1,5 @@
 .container {
-  padding: 120px 5% 60px;
+  padding: 100px 5% 40px;
   min-height: 100vh;
   max-width: 1200px;
   margin: 0 auto;
@@ -15,7 +15,7 @@
 }
 
 .header h1 {
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 8vw, 3.5rem);
   margin-bottom: 1rem;
 }
 
@@ -176,16 +176,37 @@
 }
 
 @media (max-width: 900px) {
+  .container {
+    padding: 80px 4% 30px;
+  }
   .cardGrid {
     grid-template-columns: 1fr;
     max-width: 500px;
+    margin-bottom: 40px;
   }
-  .header h1 {
-    font-size: 2.5rem;
+  .header {
+    margin-bottom: 30px;
   }
   .ceoCard {
     grid-column: span 1;
     max-width: initial;
     margin: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardWrapper {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+  .info {
+    text-align: center !important;
+  }
+  .iconBox {
+    margin: 0 auto;
+  }
+  .value {
+    font-size: 0.95rem;
   }
 }
