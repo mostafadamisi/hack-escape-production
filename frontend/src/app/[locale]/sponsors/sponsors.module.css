@@ -71,7 +71,9 @@
 .packageCard::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 3px;
   background: var(--tier-accent, var(--primary));
   border-radius: 12px 12px 0 0;
@@ -79,21 +81,21 @@
 
 .packageCard:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px var(--tier-glow, var(--primary-glow));
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px var(--tier-glow, var(--primary-glow));
   border-color: var(--tier-accent, var(--primary));
 }
 
 /* Platinum */
 .platinum {
-  --tier-accent: #e5c97e;
-  --tier-glow: rgba(229, 201, 126, 0.2);
-  border-color: rgba(229, 201, 126, 0.25);
+  --tier-accent: #bc0a10;
+  --tier-glow: #bc0a1033;
+  border-color: #bc0a1033;
 }
 
 /* Gold */
 .gold {
-  --tier-accent: var(--primary);
-  --tier-glow: var(--primary-glow);
+  --tier-accent: #FFD700;
+  --tier-glow: #FFD70033;
 }
 
 /* Silver */
@@ -106,7 +108,7 @@
 /* ── Package Header ── */
 .packageHeader {
   text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   padding-bottom: 1.5rem;
 }
 
@@ -246,9 +248,9 @@
   max-width: 700px;
   margin: 0 auto;
   padding: 2rem;
-  border: 1px solid rgba(255,255,255,0.07);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 8px;
-  background: rgba(255,255,255,0.02);
+  background: rgba(255, 255, 255, 0.02);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -297,24 +299,30 @@
   .container {
     padding: 60px 4%;
   }
+
   .header {
     margin-bottom: 3.5rem;
   }
-  .header h1 { 
-    font-size: 2.5rem; 
+
+  .header h1 {
+    font-size: 2.5rem;
   }
+
   .subheader {
     font-size: 0.95rem;
   }
+
   .packagesGrid {
     gap: 1.5rem;
     margin-bottom: 3rem;
   }
+
   .packageCard {
     padding: 1.5rem;
   }
-  .price { 
-    font-size: 1.6rem; 
+
+  .price {
+    font-size: 1.6rem;
   }
 }
 
@@ -322,21 +330,27 @@
   .packagesGrid {
     grid-template-columns: 1fr;
   }
+
   .container {
     padding: 40px 5%;
   }
-  .header h1 { 
-    font-size: 2rem; 
+
+  .header h1 {
+    font-size: 2rem;
   }
+
   .packageHeader {
     padding-bottom: 1.2rem;
   }
+
   .categoryLabel {
     font-size: 0.65rem;
   }
+
   .benefitList li {
     font-size: 0.85rem;
   }
+
   .customNote {
     padding: 1.5rem 1rem;
   }
