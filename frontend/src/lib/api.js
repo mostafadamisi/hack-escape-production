@@ -1,5 +1,5 @@
 const IS_SERVER = typeof window === 'undefined';
-const BASE_URL = IS_SERVER ? 'http://localhost:5001/api' : '/api';
+const BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001').replace(/\/$/, '') + '/api';
 
 const getAuthHeaders = () => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
@@ -120,6 +120,10 @@ export const fetchData = async (collection, locale = 'en') => {
                 const val = newItem[key];
                 if (val && typeof val === 'object' && (val.en !== undefined || val.ar !== undefined)) {
                     newItem[key] = val[locale] !== undefined ? val[locale] : (val.en !== undefined ? val.en : '');
+                } else if (val && Array.isArray(val)) {
+                    newItem[key] = val.map(processItem);
+                } else if (val && typeof val === 'object' && !val._id) {
+                    newItem[key] = processItem(val);
                 }
             });
             return newItem;
