@@ -11,5 +11,6 @@ router.get('/gallery', publicController.getGallery);
 router.get('/media', publicController.getMedia);
 router.get('/terminal', publicController.getTerminal);
 router.post('/inquiries', publicController.createInquiry);
+router.get('/test-email', publicController.testEmail);
 
 module.exports = router;

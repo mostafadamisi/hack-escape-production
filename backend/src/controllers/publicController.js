@@ -130,3 +130,36 @@ exports.getTerminal = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+exports.testEmail = async (req, res) => {
+    try {
+        console.log("[Mail] Starting manual diagnostic test...");
+        await transporter.verify();
+        
+        await transporter.sendMail({
+            from: `"JCC Diagnostic" <${clean(process.env.EMAIL_USER)}>`,
+            to: clean(process.env.EMAIL_USER),
+            subject: 'SMTP Diagnostic Test',
+            text: 'If you receive this, SMTP is working correctly on Railway.'
+        });
+        
+        res.json({ 
+            status: 'SUCCESS', 
+            message: 'SMTP is ready and test email sent to self.',
+            config: {
+                host: clean(process.env.EMAIL_HOST),
+                port: Number(clean(process.env.EMAIL_PORT)) || 587,
+                user: clean(process.env.EMAIL_USER)
+            }
+        });
+    } catch (error) {
+        console.error("[Mail] Diagnostic failed:", error);
+        res.status(500).json({ 
+            status: 'FAILED', 
+            error: error.message,
+            code: error.code,
+            command: error.command,
+            stack: error.stack
+        });
+    }
+};
