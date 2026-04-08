@@ -98,8 +98,9 @@
     right: 0;
     bottom: 0;
     width: 280px;
-    background: #050505; /* Solid background for reliability */
-    backdrop-filter: blur(20px);
+    background-color: #000000 !important; /* Pure solid black */
+    background: #000000 !important;
+    opacity: 1 !important;
     border-left: 2px solid var(--primary);
     flex-direction: column;
     padding: 100px 2rem 2rem;
@@ -107,7 +108,7 @@
     align-items: flex-start;
     transform: translateX(100%);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1500;
+    z-index: 9999 !important; /* Extremely high z-index */
   }
 
   [dir="rtl"] .links {
