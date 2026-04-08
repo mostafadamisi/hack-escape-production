@@ -18,7 +18,7 @@ export default function TeamRegisterPage({ params }) {
     setStatus('loading');
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/inquiries`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/inquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
