@@ -1,13 +1,13 @@
 :root {
   --background: #050505;
   --foreground: #ffffff;
-  --primary: #ff0033;
+  --primary: #bc0a10;
   --primary-glow: rgba(255, 0, 51, 0.4);
   --secondary: #ffffff;
   --secondary-glow: rgba(255, 255, 255, 0.2);
-  --accent: #990022;
+  --accent: #bc0a10;
   --card-bg: rgba(20, 10, 10, 0.9);
-  --border-color: rgba(255, 0, 51, 0.2);
+  --border-color: #bc0a10;
   --grid-color: rgba(255, 0, 51, 0.05);
   --font-inter: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
@@ -33,7 +33,7 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: 
+  background-image:
     linear-gradient(var(--grid-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
   background-size: 50px 50px;
