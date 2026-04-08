@@ -53,7 +53,7 @@ const transporter = nodemailer.createTransport({
 // Verify connection on startup
 transporter.verify((error, success) => {
     if (error) {
-        console.error('[Mail] Connection failed:', error.message);
+        console.error(`[Mail] Connection failed on ${clean(process.env.EMAIL_HOST)}:${Number(clean(process.env.EMAIL_PORT)) || 587}:`, error.message);
     } else {
         console.log('[Mail] Server is ready to take our messages');
     }

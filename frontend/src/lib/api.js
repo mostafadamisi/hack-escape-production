@@ -114,10 +114,12 @@ export const fetchData = async (collection, locale = 'en') => {
         const data = await response.json();
         
         const processItem = (item) => {
+            if (!item || typeof item !== 'object') return item;
             const newItem = { ...item };
             Object.keys(newItem).forEach(key => {
-                if (newItem[key] && typeof newItem[key] === 'object' && newItem[key][locale]) {
-                    newItem[key] = newItem[key][locale];
+                const val = newItem[key];
+                if (val && typeof val === 'object' && (val.en !== undefined || val.ar !== undefined)) {
+                    newItem[key] = val[locale] !== undefined ? val[locale] : (val.en !== undefined ? val.en : '');
                 }
             });
             return newItem;
