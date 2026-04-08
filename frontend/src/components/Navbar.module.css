@@ -73,7 +73,7 @@
   color: var(--primary);
   font-size: 2rem;
   cursor: pointer;
-  z-index: 1001;
+  z-index: 2000;
   transition: all 0.3s ease;
 }
 
@@ -98,15 +98,16 @@
     right: 0;
     bottom: 0;
     width: 280px;
-    background: rgba(5, 5, 5, 0.98);
+    background: #050505; /* Solid background for reliability */
+    backdrop-filter: blur(20px);
     border-left: 2px solid var(--primary);
     flex-direction: column;
-    padding: 80px 2rem 2rem;
-    gap: 2rem;
+    padding: 100px 2rem 2rem;
+    gap: 1.5rem;
     align-items: flex-start;
     transform: translateX(100%);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 999;
+    z-index: 1500;
   }
 
   [dir="rtl"] .links {
