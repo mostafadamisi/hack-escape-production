@@ -110,7 +110,7 @@ export default function AdminSecurityPage() {
                         {status && (
                             <div style={{ 
                                 padding: '1rem', 
-                                background: status.type === 'error' ? 'rgba(255,0,51,0.05)' : 'rgba(39,201,63,0.05)',
+                                background: status.type === 'error' ? 'rgba(188, 10, 16, 0.05)' : 'rgba(39,201,63,0.05)',
                                 border: `1px solid ${status.type === 'error' ? 'var(--admin-red)' : '#27c93f'}`,
                                 color: status.type === 'error' ? 'var(--admin-red)' : '#27c93f',
                                 marginBottom: '2rem',
@@ -131,7 +131,7 @@ export default function AdminSecurityPage() {
                 </div>
 
                 <div className="vt323" style={{ opacity: 0.4 }}>
-                    <div className="brutalist-border" style={{ padding: '1.5rem', marginBottom: '1.5rem', background: 'rgba(255,0,51,0.02)' }}>
+                    <div className="brutalist-border" style={{ padding: '1.5rem', marginBottom: '1.5rem', background: 'rgba(188, 10, 16, 0.02)' }}>
                         <p style={{ color: 'var(--admin-red)', fontWeight: 'bold' }}>[ACCESS_POLICIES]</p>
                         <ul style={{ listStyle: 'none', marginTop: '1rem', fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <li>- MIN_LENGTH: 08_CHARS</li>

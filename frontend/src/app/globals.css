@@ -2,13 +2,13 @@
   --background: #050505;
   --foreground: #ffffff;
   --primary: #bc0a10;
-  --primary-glow: rgba(255, 0, 51, 0.4);
+  --primary-glow: rgba(188, 10, 16, 0.4);
   --secondary: #ffffff;
   --secondary-glow: rgba(255, 255, 255, 0.2);
   --accent: #bc0a10;
   --card-bg: rgba(20, 10, 10, 0.9);
   --border-color: #bc0a10;
-  --grid-color: rgba(255, 0, 51, 0.05);
+  --grid-color: rgba(188, 10, 16, 0.05);
   --font-inter: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-cairo: 'Cairo', sans-serif;
