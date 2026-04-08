@@ -19,7 +19,7 @@ export default function SponsorRegisterPage({ params }) {
     setStatus('loading');
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/inquiries`, {
+      const res = await fetch('/api/inquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
