@@ -1,5 +1,5 @@
 const db = require('../lib/db');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
 const getAllHelper = (collection) => async (req, res) => {
     try {
@@ -36,28 +36,10 @@ exports.getMedia = getAllHelper('media');
 // Helper to clean env variables (strips quotes if present)
 const clean = (val) => val ? val.replace(/^["']|["']$/g, '').trim() : '';
 
-// Email config
-const transporter = nodemailer.createTransport({
-    host: clean(process.env.EMAIL_HOST),
-    port: Number(clean(process.env.EMAIL_PORT)) || 587, // Default to 587 for cloud compatibility
-    secure: clean(process.env.EMAIL_PORT) === '465', // Only true for 465
-    auth: {
-        user: clean(process.env.EMAIL_USER),
-        pass: clean(process.env.EMAIL_PASS)
-    },
-    tls: {
-        rejectUnauthorized: false // Helps with some cloud network cert issues
-    }
-});
+// Email config - Migrated to Resend (HTTP based) for 100% reliability on Railway
+const resend = new Resend(clean(process.env.RESEND_API_KEY));
+const RESEND_FROM = clean(process.env.RESEND_FROM_EMAIL) || 'onboarding@resend.dev';
 
-// Verify connection on startup
-transporter.verify((error, success) => {
-    if (error) {
-        console.error(`[Mail] Connection failed on ${clean(process.env.EMAIL_HOST)}:${Number(clean(process.env.EMAIL_PORT)) || 587}:`, error.message);
-    } else {
-        console.log('[Mail] Server is ready to take our messages');
-    }
-});
 
 exports.createInquiry = async (req, res) => {
     try {
@@ -81,14 +63,25 @@ exports.createInquiry = async (req, res) => {
         };
 
         try {
-            await transporter.sendMail(mailOptions);
+            await resend.emails.send({
+                from: RESEND_FROM,
+                to: recipient,
+                subject: isSponsor ? 'New Sponsorship Request' : 'New Contact Inquiry',
+                text: `New Sponsorship Request:\n\n` +
+                      `Company Name: ${inquiryData.companyName || 'N/A'}\n` +
+                      `Contact Person: ${inquiryData.name}\n` +
+                      `Email: ${inquiryData.email}\n` +
+                      `Phone: ${inquiryData.phone || 'N/A'}\n` +
+                      `Sponsorship Tier: ${inquiryData.tierInterest || inquiryData.details?.tierInterest || 'N/A'}\n` +
+                      `Message: ${inquiryData.message}`
+            });
         } catch (mailErr) {
             console.error("Mail dispatch to official failed (ignoring block):", mailErr.message);
         }
 
         try {
-            await transporter.sendMail({
-                from: `"Jordan Cyber Club" <${process.env.EMAIL_USER}>`,
+            await resend.emails.send({
+                from: RESEND_FROM,
                 to: inquiryData.email,
                 subject: 'Thank You - Jordan Cyber Club',
                 text: `Hello ${inquiryData.name},\n\nThank you for contacting Jordan Cyber Club. We have received your request and our team will get back to you soon.\n\nBest regards,\nJordan Cyber Club Team`
@@ -133,32 +126,30 @@ exports.getTerminal = async (req, res) => {
 
 exports.testEmail = async (req, res) => {
     try {
-        console.log("[Mail] Starting manual diagnostic test...");
-        await transporter.verify();
+        console.log("[Resend] Starting manual diagnostic test...");
         
-        await transporter.sendMail({
-            from: `"JCC Diagnostic" <${clean(process.env.EMAIL_USER)}>`,
-            to: clean(process.env.EMAIL_USER),
-            subject: 'SMTP Diagnostic Test',
-            text: 'If you receive this, SMTP is working correctly on Railway.'
+        const testMail = await resend.emails.send({
+            from: RESEND_FROM,
+            to: clean(process.env.EMAIL_USER) || 'official@jordancyberclub.com',
+            subject: 'Resend Diagnostic Test',
+            text: 'If you receive this, Resend HTTP API is working correctly on Railway.'
         });
         
         res.json({ 
             status: 'SUCCESS', 
-            message: 'SMTP is ready and test email sent to self.',
+            message: 'Resend API is connected and test email sent.',
+            resendResponse: testMail,
             config: {
-                host: clean(process.env.EMAIL_HOST),
-                port: Number(clean(process.env.EMAIL_PORT)) || 587,
-                user: clean(process.env.EMAIL_USER)
+                from: RESEND_FROM,
+                target: clean(process.env.EMAIL_USER) || 'official@jordancyberclub.com'
             }
         });
     } catch (error) {
-        console.error("[Mail] Diagnostic failed:", error);
+        console.error("[Resend] Diagnostic failed:", error);
         res.status(500).json({ 
             status: 'FAILED', 
             error: error.message,
             code: error.code,
-            command: error.command,
             stack: error.stack
         });
     }
