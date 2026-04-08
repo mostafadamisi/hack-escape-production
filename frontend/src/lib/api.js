@@ -1,5 +1,7 @@
 const IS_SERVER = typeof window === 'undefined';
-const BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001').replace(/\/$/, '') + '/api';
+const BASE_URL = IS_SERVER
+    ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001').replace(/\/$/, '') + '/api'
+    : '/api';
 
 const getAuthHeaders = () => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
