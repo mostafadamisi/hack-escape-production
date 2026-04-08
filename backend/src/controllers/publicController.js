@@ -42,12 +42,24 @@ const resendApiKey = clean(process.env.RESEND_API_KEY);
 const resend = resendApiKey ? new Resend(resendApiKey) : null;
 const RESEND_FROM = clean(process.env.RESEND_FROM_EMAIL) || 'onboarding@resend.dev';
 
+// Helper to escape HTML for Telegram
+const safeHtml = (str) => {
+    if (!str) return '';
+    return str.toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+};
+
 // Telegram config
 const TELEGRAM_TOKEN = clean(process.env.TELEGRAM_BOT_TOKEN);
 const TELEGRAM_CHAT_ID = clean(process.env.TELEGRAM_CHAT_ID);
 
 const sendTelegramMessage = (message) => {
-    if (!TELEGRAM_TOKEN || !TELEGRAM_CHAT_ID) return Promise.resolve();
+    if (!TELEGRAM_TOKEN || !TELEGRAM_CHAT_ID) {
+        console.warn("[Telegram] Missing credentials, skipping...");
+        return Promise.resolve();
+    }
     
     return new Promise((resolve, reject) => {
         const data = JSON.stringify({
@@ -63,18 +75,30 @@ const sendTelegramMessage = (message) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Content-Length': data.length
+                'Content-Length': Buffer.byteLength(data)
             }
         };
 
         const req = https.request(options, (res) => {
             let body = '';
             res.on('data', (chunk) => body += chunk);
-            res.on('end', () => resolve(JSON.parse(body)));
+            res.on('end', () => {
+                try {
+                    const parsed = JSON.parse(body);
+                    if (!parsed.ok) {
+                        console.error("[Telegram] API Error:", parsed.description);
+                        return reject(new Error(parsed.description));
+                    }
+                    resolve(parsed);
+                } catch (e) {
+                    console.error("[Telegram] Parse Error:", e.message, "Body:", body);
+                    reject(new Error("Invalid response from Telegram"));
+                }
+            });
         });
 
         req.on('error', (e) => {
-            console.error('[Telegram] Error:', e.message);
+            console.error('[Telegram] Request Error:', e.message);
             reject(e);
         });
 
@@ -86,79 +110,71 @@ const sendTelegramMessage = (message) => {
 
 exports.createInquiry = async (req, res) => {
     try {
-        const inquiryData = req.body;
+        const inquiryData = req.body || {};
+        console.log(`[Inquiry] Processing for type: ${inquiryData.type}`);
+        
         let newInquiryId = 'temp-' + Date.now();
         
-        // 1. Try to persist to DB (Storage)
+        // 1. Persist to Storage
         try {
             const newInquiry = db.create('inquiries', inquiryData);
             newInquiryId = newInquiry._id;
+            console.log(`[Inquiry] Saved to DB with ID: ${newInquiryId}`);
         } catch (dbErr) {
-            console.error("INQUIRY DB WRITE FAILED:", dbErr.message);
-            console.error("HINT: Ensure Railway volume matches /app/storage/data");
-            // We continue anyway to ensure the user gets notified via Telegram
+            console.error("[Inquiry] DB Write failed:", dbErr.message);
         }
 
         const isSponsor = inquiryData.type === 'sponsor';
         const recipient = 'official@jordancyberclub.com';
         
-        // Generate Telegram Message based on type
+        // Generate Telegram Message safely
         let telegramMsg = `<b>🚀 New ${isSponsor ? 'Sponsorship Request' : 'Team Registration'}</b>\n\n` +
-            `<b>Name:</b> ${inquiryData.name}\n` +
-            `<b>Email:</b> ${inquiryData.email}\n`;
+            `<b>Name:</b> ${safeHtml(inquiryData.name)}\n` +
+            `<b>Email:</b> ${safeHtml(inquiryData.email)}\n`;
 
         if (isSponsor) {
-            telegramMsg += `<b>Company:</b> ${inquiryData.companyName || 'N/A'}\n` +
-                           `<b>Tier Interest:</b> ${inquiryData.tierInterest || inquiryData.details?.tierInterest || 'N/A'}\n`;
+            telegramMsg += `<b>Company:</b> ${safeHtml(inquiryData.companyName || 'N/A')}\n` +
+                           `<b>Tier:</b> ${safeHtml(inquiryData.tierInterest || inquiryData.details?.tierInterest || 'N/A')}\n`;
         } else if (inquiryData.type === 'team') {
             const teamDetails = inquiryData.details || {};
-            telegramMsg += `<b>Team Name:</b> ${inquiryData.teamName || teamDetails.teamName || 'N/A'}\n` +
-                           `<b>University:</b> ${inquiryData.university || teamDetails.university || 'N/A'}\n`;
+            telegramMsg += `<b>Team:</b> ${safeHtml(inquiryData.teamName || teamDetails.teamName || 'N/A')}\n` +
+                           `<b>Uni:</b> ${safeHtml(inquiryData.university || teamDetails.university || 'N/A')}\n`;
         }
         
-        telegramMsg += `<b>Phone:</b> ${inquiryData.phone || 'N/A'}\n` +
-                       `<b>Message:</b>\n<i>${inquiryData.message || 'N/A'}</i>`;
-        
-        // 1. Send Telegram Notification (Primary)
+        telegramMsg += `<b>Phone:</b> ${safeHtml(inquiryData.phone || 'N/A')}\n` +
+                       `<b>Message:</b>\n<i>${safeHtml(inquiryData.message || 'N/A')}</i>`;
+
+        // 2. Dispatch Notifications
         try {
             await sendTelegramMessage(telegramMsg);
+            console.log("[Inquiry] Telegram dispatched.");
         } catch (tgErr) {
-            console.error("[Telegram] Dispatch failed:", tgErr.message);
+            console.error("[Inquiry] Telegram failed:", tgErr.message);
         }
 
-        // 2. Send Resend Email (Secondary/Internal)
         if (resend) {
             try {
                 await resend.emails.send({
                     from: RESEND_FROM,
                     to: recipient,
                     subject: isSponsor ? 'New Sponsorship Request' : 'New Contact Inquiry',
-                    text: `New ${isSponsor ? 'Sponsorship' : 'Contact'} Inquiry received via website.`
+                    text: `New ${isSponsor ? 'Sponsorship' : 'Contact'} Inquiry received.`
                 });
-            } catch (mailErr) {
-                console.error("[Resend] Notification failed (ignoring):", mailErr.message);
-            }
-
-            // 3. Send Confirmation to User
-            try {
                 await resend.emails.send({
                     from: RESEND_FROM,
                     to: inquiryData.email,
                     subject: 'Thank You - Jordan Cyber Club',
-                    text: `Hello ${inquiryData.name},\n\nThank you for contacting Jordan Cyber Club. We have received your request and our team will get back to you soon.\n\nBest regards,\nJordan Cyber Club Team`
+                    text: `Hello ${inquiryData.name},\n\nWe have received your request and our team will get back to you soon.`
                 });
-            } catch (confirmErr) {
-                console.error('[Resend] Confirmation failed (ignoring):', confirmErr.message);
+                console.log("[Inquiry] Resend emails dispatched.");
+            } catch (mailErr) {
+                console.error("[Inquiry] Email fail:", mailErr.message);
             }
         }
 
         res.status(201).json({ message: 'Success', id: newInquiryId });
     } catch (error) {
-        console.error("INQUIRY CREATE ERROR:", error.message);
-        // Provide more context in logs
-        if (error.code === 'EACCES' || error.message.includes('permission denied')) {
-            console.error("HINT: Database write failed. Ensure Railway volume is mounted at /app/storage");
-        }
+        console.error("[Inquiry] CRIT ERROR:", error.stack);
         res.status(500).json({ 
             message: 'Something went wrong. Please try again later.',
             error: process.env.NODE_ENV === 'production' ? null : error.message 
