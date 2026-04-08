@@ -13,19 +13,29 @@ const getFilePath = (collection) => path.join(DATA_DIR, `${collection}.json`);
 const readData = (collection) => {
   const filePath = getFilePath(collection);
   
-  // Auto-seed if file doesn't exist
-  if (!fs.existsSync(filePath)) {
+  const syncData = process.env.SYNC_DATA || '';
+  const shouldForceSync = syncData === 'all' || syncData.split(',').includes(collection);
+
+  // Auto-seed if file doesn't exist OR force sync is requested
+  if (!fs.existsSync(filePath) || shouldForceSync) {
     const defaultPath = path.join(__dirname, '../defaults', `${collection}.json`);
     if (fs.existsSync(defaultPath)) {
       try {
         const content = fs.readFileSync(defaultPath, 'utf8');
         fs.mkdirSync(path.dirname(filePath), { recursive: true });
+        
+        // Log sync reason
+        if (shouldForceSync && fs.existsSync(filePath)) {
+          console.log(`[DB] Force-syncing ${collection} from updated defaults.`);
+        } else {
+          console.log(`[DB] Seeded ${collection} from defaults.`);
+        }
+
         fs.writeFileSync(filePath, content);
-        console.log(`[DB] Seeded ${collection} from defaults.`);
       } catch (e) {
-        console.error(`[DB] Failed to seed ${collection}:`, e);
+        console.error(`[DB] Failed to sync ${collection}:`, e);
       }
-    } else {
+    } else if (!fs.existsSync(filePath)) {
       return [];
     }
   }
