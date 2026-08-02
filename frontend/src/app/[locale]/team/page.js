@@ -23,15 +23,23 @@ export default async function TeamPage({ params }) {
           team.map((member) => (
             <CyberCard key={member._id} title={member.name} variant="primary">
               <div className={styles.memberInfo}>
-                <div className={styles.imagePlaceholder}>
-                  {/* Image component would go here */}
-                  <div className={styles.cyberAvatar}></div>
+                <div className={styles.imagePlaceholder} style={{ overflow: 'hidden' }}>
+                  {member.image ? (
+                    <img src={member.image} alt={member.name} className={styles.memberImg} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <div className={styles.cyberAvatar}></div>
+                  )}
                 </div>
                 <h3 className={styles.role}>{member.role}</h3>
-                <p className={styles.bio}>{member.bio}</p>
+                <p style={{ color: 'var(--color-primary-cyan)', fontSize: '0.9rem', marginBottom: '0.5rem', fontFamily: 'var(--font-mono)' }}>{member.position}</p>
+                <p style={{ fontSize: '0.85rem', color: '#ccc', marginBottom: '1rem', lineHeight: '1.4' }}>{member.bio}</p>
+                
                 <div className={styles.socials}>
-                  {member.socials?.linkedin && <span className={styles.socialIcon}>IN</span>}
-                  {member.socials?.twitter && <span className={styles.socialIcon}>TW</span>}
+                  {member.linkedin && (
+                    <a href={member.linkedin} className={styles.socialIcon} target="_blank" rel="noopener noreferrer" style={{ padding: '0.25rem 0.75rem', border: '1px solid currentColor' }}>
+                      LinkedIn
+                    </a>
+                  )}
                 </div>
               </div>
             </CyberCard>

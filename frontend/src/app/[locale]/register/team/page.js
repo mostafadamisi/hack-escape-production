@@ -1,9 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useState, use } from 'react';
 import styles from '../register.module.css'; // Reuse styles
 
 export default function TeamRegisterPage({ params }) {
-  const { locale } = params;
+  const { locale } = use(params);
   const [formData, setFormData] = useState({
     name: '',
     email: '',

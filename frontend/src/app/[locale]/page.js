@@ -3,13 +3,20 @@ import Terminal from "@/components/Terminal";
 import CyberCard from "@/components/CyberCard";
 import StatsCounter from "@/components/StatsCounter";
 import Countdown from "@/components/Countdown";
+import SponsorMarquee from "@/components/SponsorMarquee";
 import Link from "next/link";
 import { fetchData } from "@/lib/api";
 
 export default async function Home({ params }) {
   const { locale } = await params;
-  const statsData = await fetchData('/stats', locale);
-  const eventData = await fetchData('/event', locale);
+  const statsData = await fetchData('stats', locale);
+  const eventData = await fetchData('event', locale);
+  const sponsors = await fetchData('sponsors', locale);
+  const terminalData = await fetchData('terminal', locale);
+  
+  const terminalLogs = terminalData && terminalData.length > 0
+    ? terminalData // fetchData already flattens text properties to the correct locale
+    : [];
   
   const content = {
     en: {
@@ -28,7 +35,7 @@ export default async function Home({ params }) {
     },
     ar: {
       headline: "بناء جيل واعي سيبرانياً",
-      description: eventData?.description || "هاك أند إسكيب أكثر من مجرد مسابقة. إنها محاكاة واقعية للأمن السيبراني مصممة لإلهام الجيل القادم من المواهب.",
+      description: eventData?.description || "Hack & Escape أكثر من مجرد مسابقة. إنها محاكاة واقعية للأمن السيبراني مصممة لإلهام الجيل القادم من المواهب.",
       cta_sponsor: "كن راعياً",
       cta_contact: "اتصل بنا",
       stats: [
@@ -37,7 +44,7 @@ export default async function Home({ params }) {
         { target: statsData?.universities?.toString() || "15", label: "جامعة" },
         { target: statsData?.attendees?.toString() || "1000", label: "حضور" }
       ],
-      partner_title: "شاركنا في هاك أند إسكيب",
+      partner_title: "شاركنا في Hack & Escape",
       partner_text: "ادعم منظومة الأمن السيبراني وتواصل مع نخبة المواهب من جميع أنحاء الأردن."
     }
   };
@@ -61,10 +68,10 @@ export default async function Home({ params }) {
             <span>{t.headline}</span>
           </h1>
           <p className={styles.description}>{t.description}</p>
-          <Countdown targetDate="2026-07-01T09:00:00" locale={locale} />
+          <Countdown targetDate={eventData?.date || "2026-07-01T09:00:00"} locale={locale} />
         </div>
         <div className={styles.heroVisual}>
-          <Terminal locale={locale} />
+          <Terminal locale={locale} logs={terminalLogs} />
         </div>
       </section>
 
@@ -78,6 +85,10 @@ export default async function Home({ params }) {
         </div>
       </section>
 
+      <section className={styles.sponsorsSection}>
+        <SponsorMarquee sponsors={sponsors} />
+      </section>
+
       <section className={styles.ctaBanner}>
         <CyberCard className={styles.bannerCard}>
           <h2>{t.partner_title}</h2>
@@ -85,9 +96,6 @@ export default async function Home({ params }) {
           <div className={styles.bannerBtns}>
             <Link href={`/${locale}/register/sponsor`} className={styles.primaryBtn}>
               {t.cta_sponsor}
-            </Link>
-            <Link href={`/${locale}/register/team`} className={styles.outlineBtn}>
-              Join a Team
             </Link>
           </div>
         </CyberCard>

@@ -35,7 +35,7 @@ const seedData = async () => {
 
     // 2. Event (2026)
     await Event.create({
-      name: { en: "Hack & Escape 2026", ar: "هاك أند إسكيب ٢٠٢٦" },
+      name: { en: "Hack & Escape 2026", ar: "Hack & Escape ٢٠٢٦" },
       description: { 
         en: "The national cybersecurity competition merging escape room logic with real cyber scenarios.", 
         ar: "المسابقة الوطنية للأمن السيبراني التي تدمج منطق غرفة الهروب مع سيناريوهات سيبرانية حقيقية." 
@@ -92,7 +92,7 @@ const seedData = async () => {
       {
         name: "Organizing Team",
         role: { en: "Jordan Cyber Club", ar: "نادي الأردن للسيبر" },
-        bio: { en: "The primary force behind Hack & Escape.", ar: "القوة الرئيسية وراء هاك أند إسكيب." },
+        bio: { en: "The primary force behind Hack & Escape.", ar: "القوة الرئيسية وراء Hack & Escape." },
         image: "/team/jcc-logo.png",
         order: 1
       }
@@ -101,7 +101,7 @@ const seedData = async () => {
     // 6. Gallery (2025)
     await Gallery.create([
       {
-        title: { en: "H&E 2025 Opening", ar: "افتتاح هاك أند إسكيب ٢٠٢٥" },
+        title: { en: "Hack & Escape 2025 Opening", ar: "افتتاح Hack & Escape ٢٠٢٥" },
         imageUrl: "/gallery/event1.jpg",
         category: "event",
         year: "2025"

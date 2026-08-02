@@ -4,11 +4,11 @@
   border-radius: 10px;
   overflow: hidden;
   font-family: var(--font-mono);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 0, 51, 0.05);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(188, 10, 16, 0.05);
   margin: 2rem 0;
   width: 100%;
   max-width: 550px;
-  border: 1px solid rgba(255, 0, 51, 0.15);
+  border: 1px solid rgba(188, 10, 16, 0.15);
 }
 
 .header {
@@ -41,12 +41,22 @@
 
 .content {
   padding: 1.5rem;
-  color: var(--primary);
+  color: #fff;
   font-size: 0.85rem;
   line-height: 1.7;
   white-space: pre-wrap;
   min-height: 120px;
 }
+
+.line {
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.info { color: #888; }
+.success { color: #27c93f; }
+.warning { color: var(--primary); }
+.process { color: #0088ff; }
 
 .cursor {
   display: inline-block;

@@ -6,13 +6,13 @@
     "date": "2026-07-01T09:00:00",
     "description": {
       "en": "Hack & Escape is a national cybersecurity competition that merges escape room logic puzzles with real cybersecurity scenarios. Born from a group of students joking about university assignments, it challenges traditional CTFs to introduce locally built Jordanian innovation.",
-      "ar": "هاك أند إسكيب هي مسابقة وطنية للأمن السيبراني تدمج ألغاز منطق غرف الهروب مع سيناريوهات حقيقية للأمن السيبراني. ولدت الفكرة من مجموعة طلاب يمزحون حول مهام الجامعة، وتتحدى التنسيقات التقليدية لتقديم ابتكار أردني محلي الصنع."
+      "ar": "Hack & Escape هي مسابقة وطنية للأمن السيبراني تدمج ألغاز منطق غرف الهروب مع سيناريوهات حقيقية للأمن السيبراني. ولدت الفكرة من مجموعة طلاب يمزحون حول مهام الجامعة، وتتحدى التنسيقات التقليدية لتقديم ابتكار أردني محلي الصنع."
     },
     "mission": {
       "en": "Build a cyber-aware generation and push participants to think beyond traditional CTF formats.",
       "ar": "بناء جيل واعي سيبرانياً ودفع المشاركين للتفكير خارج أطر مسابقات CTF التقليدية."
     },
     "_id": "1",
-    "createdAt": "2026-03-27T00:03:36.137Z"
+    "createdAt": "2026-04-02T18:42:56.068Z"
   }
 ]

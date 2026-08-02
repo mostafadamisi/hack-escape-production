@@ -8,8 +8,8 @@ const seedData = {
     location: "Sports City (Al-Madina Al-Riyadiya), Amman, Jordan",
     date: "2026-07-01T09:00:00",
     description: {
-      en: "Hack & Escape is a national cybersecurity competition that merges escape room logic puzzles with real cybersecurity scenarios. Born from a group of students joking about university assignments, it challenges traditional CTFs to introduce locally built Jordanian innovation.",
-      ar: "هاك أند إسكيب هي مسابقة وطنية للأمن السيبراني تدمج ألغاز منطق غرف الهروب مع سيناريوهات حقيقية للأمن السيبراني. ولدت الفكرة من مجموعة طلاب يمزحون حول مهام الجامعة، وتتحدى التنسيقات التقليدية لتقديم ابتكار أردني محلي الصنع."
+      en: "Hack & Escape is a national cybersecurity competition that combines logic-based escape room puzzles with realistic cybersecurity scenarios. It is the first competition of its kind in the Middle East.",
+      ar: "هاك آند إسكيب هي مسابقة وطنية في مجال الأمن السيبراني تجمع بين ألغاز غرف الهروب القائمة على المنطق وسيناريوهات واقعية في مجال الأمن السيبراني. وهي أول مسابقة من نوعها في الشرق الأوسط."
     },
     mission: {
       en: "Build a cyber-aware generation and push participants to think beyond traditional CTF formats.",
@@ -36,10 +36,54 @@ const seedData = {
     { title: { en: "Event Launch", ar: "إطلاق الفعالية" }, date: "July 2026", order: 5 }
   ],
   gallery: [
-    { title: { en: "H&E 2025 Highlights", ar: "لقطات من هاك أند إسكيب ٢٠٢٥" }, image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800", type: "photo", category: { en: "Competition", ar: "المنافسة" } }
+    { title: { en: "Hack & Escape 2025 Highlights", ar: "لقطات من Hack & Escape ٢٠٢٥" }, image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800", type: "photo", category: { en: "Competition", ar: "المنافسة" } }
   ],
   media: [
-    { title: { en: "Next-Gen Cyber Talent in Jordan", ar: "جيل جديد من المواهب السيبرانية في الأردن" }, source: "Jordan Tech News", url: "#" }
+    {
+      title: {
+        en: "Jordan Cyber Club Launches 'Hack & Escape' Competition",
+        ar: "نادي الأردن للسايبر يطلق مسابقة 'Hack & Escape'"
+      },
+      sourceName: "Jordan Times",
+      link: "https://www.jordantimes.com/news/local/cyber-club-launches-national-competition",
+      date: "2025-05-12T10:00:00Z"
+    },
+    {
+      title: {
+        en: "Future Cybersecurity Leaders Shine in Amman",
+        ar: "قادة الأمن السيبراني في المستقبل يتألقون في عمان"
+      },
+      sourceName: "Al-Ghad News",
+      link: "https://alghad.com/cyber-security-leaders-amman/",
+      date: "2025-06-25T09:30:00Z"
+    },
+    {
+      title: {
+        en: "The Innovation Behind the Jordanian Escape Room CTF",
+        ar: "الابتكار وراء مسابقة غرف الهروب الأردنية"
+      },
+      sourceName: "Tech Trends MEA",
+      link: "https://techtrends.io/jordanian-ctf-innovation",
+      date: "2025-07-05T14:00:00Z"
+    },
+    {
+      title: {
+        en: "National Cybersecurity Strategy: Empowering Youth",
+        ar: "الاستراتيجية الوطنية للأمن السيبراني: تمكين الشباب"
+      },
+      sourceName: "Ammon News",
+      link: "https://ammonnews.net/article/123456",
+      date: "2025-08-15T11:00:00Z"
+    },
+    {
+      title: {
+        en: "Cybersecurity Training: Building a Resilient Digital Future",
+        ar: "التدريب على الأمن السيبراني: بناء مستقبل رقمي مرن"
+      },
+      sourceName: "Roya News",
+      link: "https://royanews.tv/cyber-training-jordan",
+      date: "2025-09-02T16:45:00Z"
+    }
   ]
 };
 

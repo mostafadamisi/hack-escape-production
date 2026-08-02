@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+.git
+.vscode
+*.log
+.env
+storage/uploads/*
+!storage/data/*.json
+!storage/data/.gitkeep
+!storage/public/uploads/.gitkeep

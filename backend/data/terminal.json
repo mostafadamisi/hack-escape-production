@@ -1,0 +1,57 @@
+[
+  {
+    "_id": "t1",
+    "text": {
+      "en": "Initializing Hack & Escape system core...",
+      "ar": "جاري تهيئة نواة نظام Hack & Escape..."
+    },
+    "type": "info",
+    "order": 1,
+    "createdAt": "2026-04-07T10:00:00Z",
+    "updatedAt": "2026-04-07T11:14:44.786Z"
+  },
+  {
+    "_id": "t2",
+    "text": {
+      "en": "Establishing secure uplink to Jordan Cyber Club...",
+      "ar": "تأسيس اتصال آمن مع Jordan Cyber Club..."
+    },
+    "type": "success",
+    "order": 0,
+    "createdAt": "2026-04-07T10:00:01Z",
+    "updatedAt": "2026-04-07T11:14:44.785Z"
+  },
+  {
+    "_id": "t3",
+    "text": {
+      "en": "> SCANNING_NETWORK_NODES... [OK]",
+      "ar": "> فحص عقد الشبكة... [موافق]"
+    },
+    "type": "process",
+    "order": 2,
+    "createdAt": "2026-04-07T10:00:02Z",
+    "updatedAt": "2026-04-07T11:14:44.786Z"
+  },
+  {
+    "_id": "t4",
+    "text": {
+      "en": "WARNING: Intrusion attempt detected at node 0xBF4. Countermeasures active.",
+      "ar": "تحذير: تم اكتشاف محاولة اختراق في العقدة 0xBF4. التدابير المضادة نشطة."
+    },
+    "type": "warning",
+    "order": 3,
+    "createdAt": "2026-04-07T10:00:03Z",
+    "updatedAt": "2026-04-07T11:14:44.787Z"
+  },
+  {
+    "_id": "t5",
+    "text": {
+      "en": "SYSTEM_READY: Awaiting participant connection.",
+      "ar": "النظام جاهز: في انتظار اتصال المشاركين."
+    },
+    "type": "success",
+    "order": 4,
+    "createdAt": "2026-04-07T10:00:04Z",
+    "updatedAt": "2026-04-07T11:14:44.787Z"
+  }
+]

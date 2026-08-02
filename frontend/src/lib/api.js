@@ -1,50 +1,136 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api';
+const IS_SERVER = typeof window === 'undefined';
+const BASE_URL = IS_SERVER ? 'http://localhost:5001/api' : '/api';
 
-/**
- * Universal fetcher for Hack & Escape API
- * @param {string} endpoint - The API endpoint (e.g., '/sponsors')
- * @param {string} locale - 'en' or 'ar'
- */
-export async function fetchData(endpoint, locale = 'en') {
-  try {
-    const res = await fetch(`${API_URL}${endpoint}`, {
-      next: { revalidate: 60 }, // Cache for 60 seconds
-    });
+const getAuthHeaders = () => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
+    return {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    };
+};
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch ${endpoint}`);
-    }
-
-    const data = await res.json();
+export const api = {
+    get: async (endpoint) => {
+        const response = await fetch(`${BASE_URL}${endpoint}`, {
+            headers: getAuthHeaders()
+        });
+        if (response.status === 401) {
+            localStorage.removeItem('token');
+            throw new Error('Unauthorized');
+        }
+        if (!response.ok) throw new Error('API request failed');
+        return response.json();
+    },
     
-    // If it's an array, map through it to simplify bilingual fields
-    if (Array.isArray(data)) {
-      return data.map(item => processBilingual(item, locale));
-    }
+    post: async (endpoint, data) => {
+        const response = await fetch(`${BASE_URL}${endpoint}`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(data)
+        });
+        if (response.status === 401) {
+            localStorage.removeItem('token');
+            throw new Error('Unauthorized');
+        }
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'API request failed');
+        }
+        return response.json();
+    },
     
-    return processBilingual(data, locale);
-  } catch (error) {
-    console.error(`API Error [${endpoint}]:`, error);
-    return null;
-  }
-}
+    put: async (endpoint, data) => {
+        const response = await fetch(`${BASE_URL}${endpoint}`, {
+            method: 'PUT',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(data)
+        });
+        if (response.status === 401) {
+            localStorage.removeItem('token');
+            throw new Error('Unauthorized');
+        }
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'API request failed');
+        }
+        return response.json();
+    },
+    
+    delete: async (endpoint) => {
+        const response = await fetch(`${BASE_URL}${endpoint}`, {
+            method: 'DELETE',
+            headers: getAuthHeaders()
+        });
+        if (response.status === 401) {
+            localStorage.removeItem('token');
+            throw new Error('Unauthorized');
+        }
+        if (!response.ok) throw new Error('API delete failed');
+        return response.json();
+    },
 
-/**
- * Helper to flatten bilingual fields based on current locale
- * @param {object} item 
- * @param {string} locale 
- */
-function processBilingual(item, locale) {
-  if (!item) return null;
-  
-  const processed = { ...item };
-  
-  // Recursively check for { en, ar } objects and flatten them
-  Object.keys(processed).forEach(key => {
-    if (processed[key] && typeof processed[key] === 'object' && processed[key].en && processed[key].ar) {
-      processed[key] = processed[key][locale] || processed[key].en;
+    postForm: async (endpoint, formData) => {
+        const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
+        const response = await fetch(`${BASE_URL}${endpoint}`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }, // Content-Type is auto-set by the browser for FormData
+            body: formData
+        });
+        if (response.status === 401) {
+            localStorage.removeItem('token');
+            throw new Error('Unauthorized');
+        }
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'API request failed');
+        }
+        return response.json();
+    },
+
+    putForm: async (endpoint, formData) => {
+        const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
+        const response = await fetch(`${BASE_URL}${endpoint}`, {
+            method: 'PUT',
+            headers: { 'Authorization': `Bearer ${token}` }, // Content-Type is auto-set by the browser for FormData
+            body: formData
+        });
+        if (response.status === 401) {
+            localStorage.removeItem('token');
+            throw new Error('Unauthorized');
+        }
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'API request failed');
+        }
+        return response.json();
     }
-  });
-  
-  return processed;
-}
+};
+
+export const fetchData = async (collection, locale = 'en') => {
+    try {
+        const formattedCollection = collection.startsWith('/') ? collection : '/' + collection;
+        const response = await fetch(`${BASE_URL}${formattedCollection}`);
+        if (!response.ok) return [];
+        const data = await response.json();
+        
+        const processItem = (item) => {
+            const newItem = { ...item };
+            Object.keys(newItem).forEach(key => {
+                if (newItem[key] && typeof newItem[key] === 'object' && newItem[key][locale]) {
+                    newItem[key] = newItem[key][locale];
+                }
+            });
+            return newItem;
+        };
+
+        if (Array.isArray(data)) {
+            return data.map(processItem).sort((a, b) => (a.order || 0) - (b.order || 0));
+        } else if (data && typeof data === 'object') {
+            return processItem(data);
+        }
+        return data;
+    } catch (err) {
+        console.error(`Fetch error for ${collection}:`, err);
+        return [];
+    }
+};

@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Hack & Escape",
+    "organizer": "Jordan Cyber Club",
+    "location": "Sports City (Al-Madina Al-Riyadiya), Amman, Jordan",
+    "date": "2026-07-01T09:00:00",
+    "description": {
+      "en": "Hack & Escape is a national cybersecurity competition that combines logic-based escape room puzzles with realistic cybersecurity scenarios. It is the first competition of its kind in the Middle East.",
+      "ar": "هاك آند إسكيب هي مسابقة وطنية في مجال الأمن السيبراني تجمع بين ألغاز غرف الهروب القائمة على المنطق وسيناريوهات واقعية في مجال الأمن السيبراني. وهي أول مسابقة من نوعها في الشرق الأوسط."
+    },
+    "mission": {
+      "en": "Build a cyber-aware generation and push participants to think beyond traditional CTF formats.",
+      "ar": "بناء جيل واعي سيبرانياً ودفع المشاركين للتفكير خارج أطر مسابقات CTF التقليدية."
+    },
+    "_id": "1",
+    "createdAt": "2026-04-02T18:42:56.068Z"
+  }
+]

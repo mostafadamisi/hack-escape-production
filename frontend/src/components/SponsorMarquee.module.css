@@ -1,0 +1,78 @@
+.marqueeContainer {
+  width: 100%;
+  overflow: hidden;
+  padding: 3rem 0;
+  position: relative;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 61, 61, 0.1);
+  border-bottom: 1px solid rgba(255, 61, 61, 0.1);
+}
+
+.marqueeContainer::before,
+.marqueeContainer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marqueeContainer::before {
+  left: 0;
+  background: linear-gradient(to right, #050505 0%, transparent 100%);
+}
+
+.marqueeContainer::after {
+  right: 0;
+  background: linear-gradient(to left, #050505 0%, transparent 100%);
+}
+
+.marqueeTrack {
+  display: flex;
+  width: max-content;
+  animation: scroll 30s linear infinite;
+  align-items: center;
+}
+
+.sponsorLogo {
+  padding: 0 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sponsorLogo img {
+  height: 80px;
+  width: auto;
+  max-width: 200px;
+  filter: grayscale(100%) brightness(150%);
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  object-fit: contain;
+}
+
+.sponsorLogo:hover img {
+  filter: grayscale(0%) brightness(100%);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.3333%);
+  }
+}
+
+@media (max-width: 768px) {
+  .sponsorLogo {
+    padding: 0 2rem;
+  }
+  .sponsorLogo img {
+    height: 50px;
+  }
+}
