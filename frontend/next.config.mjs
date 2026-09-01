@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const BACKEND = (process.env.BACKEND_URL || 'http://localhost:5001').replace(/\/$/, '');
+
 const nextConfig = {
   images: {
     unoptimized: true,
@@ -7,11 +9,11 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:5001/api/:path*',
+        destination: `${BACKEND}/api/:path*`,
       },
       {
         source: '/uploads/:path*',
-        destination: 'http://localhost:5001/uploads/:path*',
+        destination: `${BACKEND}/uploads/:path*`,
       },
     ];
   },

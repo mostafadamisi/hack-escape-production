@@ -9,5 +9,7 @@ console.log('--- STARTING IN LOCAL JSON MODE ---');
 
 app.listen(PORT, () => {
     console.log(`[SERVER] Running on port ${PORT}`);
-    console.log(`[DB] Using persistent JSON storage in /data`);
+    const STORAGE_ROOT = process.env.NODE_ENV === 'production' ? '/app/storage' : require('path').join(process.cwd(), '../storage');
+    const DATA_DIR = process.env.DATA_PATH || require('path').join(STORAGE_ROOT, 'data');
+    console.log(`[DB] Using persistent JSON storage in ${DATA_DIR}`);
 });
